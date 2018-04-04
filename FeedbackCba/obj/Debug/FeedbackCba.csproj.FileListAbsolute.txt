@@ -21,12 +21,12 @@ c:\users\hhoodeh\documents\visual studio 2013\Projects\FeedbackCba\FeedbackCba\b
 c:\users\hhoodeh\documents\visual studio 2013\Projects\FeedbackCba\FeedbackCba\bin\System.Web.WebPages.Razor.xml
 c:\users\hhoodeh\documents\visual studio 2013\Projects\FeedbackCba\FeedbackCba\bin\Antlr3.Runtime.pdb
 c:\users\hhoodeh\documents\visual studio 2013\Projects\FeedbackCba\FeedbackCba\bin\Newtonsoft.Json.xml
-c:\users\hhoodeh\documents\visual studio 2013\Projects\FeedbackCba\FeedbackCba\obj\Debug\FeedbackCba.csprojResolveAssemblyReference.cache
 c:\users\hhoodeh\documents\visual studio 2013\Projects\FeedbackCba\FeedbackCba\obj\Debug\FeedbackCba.dll
 c:\users\hhoodeh\documents\visual studio 2013\Projects\FeedbackCba\FeedbackCba\obj\Debug\FeedbackCba.pdb
 C:\Users\hhoodeh\Documents\Visual Studio 2013\Projects\FeedbackCba\FeedbackCba\bin\EntityFramework.dll
 C:\Users\hhoodeh\Documents\Visual Studio 2013\Projects\FeedbackCba\FeedbackCba\bin\EntityFramework.SqlServer.dll
 C:\Users\hhoodeh\Documents\Visual Studio 2013\Projects\FeedbackCba\FeedbackCba\bin\EntityFramework.xml
 C:\Users\hhoodeh\Documents\Visual Studio 2013\Projects\FeedbackCba\FeedbackCba\bin\EntityFramework.SqlServer.xml
-C:\Users\hhoodeh\Documents\Visual Studio 2013\Projects\FeedbackCba\FeedbackCba\obj\Debug\FeedbackCba.Migrations.AddQuestionTable.resources
+C:\Users\hhoodeh\Documents\Visual Studio 2013\Projects\FeedbackCba\FeedbackCba\obj\Debug\FeedbackCba.csprojResolveAssemblyReference.cache
+C:\Users\hhoodeh\Documents\Visual Studio 2013\Projects\FeedbackCba\FeedbackCba\obj\Debug\FeedbackCba.Migrations.feedback.resources
 C:\Users\hhoodeh\Documents\Visual Studio 2013\Projects\FeedbackCba\FeedbackCba\obj\Debug\FeedbackCba.csproj.GenerateResource.Cache

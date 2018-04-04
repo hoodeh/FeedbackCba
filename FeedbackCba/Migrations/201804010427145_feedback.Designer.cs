@@ -7,13 +7,13 @@ namespace FeedbackCba.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class AddQuestionTable : IMigrationMetadata
+    public sealed partial class feedback : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddQuestionTable));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(feedback));
         
         string IMigrationMetadata.Id
         {
-            get { return "201803240348407_AddQuestionTable"; }
+            get { return "201804010427145_feedback"; }
         }
         
         string IMigrationMetadata.Source

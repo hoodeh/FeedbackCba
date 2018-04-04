@@ -4,15 +4,20 @@ using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace FeedbackCba.DAL
 {
-    public class MyDbContext : DbContext
+    public class ApplicationDbContext : DbContext
     {
-        public MyDbContext() : base("FeedbackConnection")
+        public DbSet<User> Users { get; set; }
+        public DbSet<Feedback> Feedbacks { get; set; }
+
+        public ApplicationDbContext()
+            : base("FeedbackCbaConn")
         {
         }
 
-        public DbSet<Question> Questions { get; set; }
-
-
+        public static ApplicationDbContext Create()
+        {
+            return new ApplicationDbContext();
+        }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
