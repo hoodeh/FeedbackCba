@@ -25,5 +25,18 @@ textarea {
 
 #star-rating .rate-star:hover {
     cursor: pointer;
-    color: red;
+}
+
+#star-rating .star-fade{
+    background-image:url('/Content/Images/star.jpg');
+    min-width:25px;
+    min-height:25px;
+    display:inline-block;
+}
+
+#star-rating .star-glow{
+    background-image:url('/Content/Images/starGlow.jpg');
+    min-width:25px;
+    min-height:25px;
+    display:inline-block;
 }

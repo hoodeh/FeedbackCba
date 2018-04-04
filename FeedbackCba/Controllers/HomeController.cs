@@ -2,7 +2,6 @@
 using FeedbackCba.Models;
 using FeedbackCba.ViewModel;
 using System;
-using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -61,7 +60,7 @@ namespace FeedbackCba.Controllers
         [HttpPost]
         public ActionResult _Feedback(FeedbackViewModel feedback)
         {
-            UpdateUser(new User { Guid = feedback.UserId, Email = feedback.UserEmail, Name = feedback.UserName });
+            UpdateUser(new User {Guid = feedback.UserId, Email = feedback.UserEmail, Name = feedback.UserName});
 
             if (feedback.Id > 0)
             {
@@ -72,7 +71,7 @@ namespace FeedbackCba.Controllers
                 feedback.Id = CreateFeedback(feedback);
             }
 
-            return _Feedback(feedback.PageUrl, feedback.IsMainPage, feedback.UserId);
+            return Redirect(feedback.PageUrl);
         }
 
 
@@ -80,7 +79,7 @@ namespace FeedbackCba.Controllers
         {
             try
             {
-                return _context.Users.FirstOrDefault(f => f.Guid == userId) ?? new User {Guid = Guid.NewGuid().ToString()};
+                return _context.Users.FirstOrDefault(u => u.Guid == userId) ?? new User { Guid = Guid.NewGuid().ToString() };
             }
             catch (Exception ex)
             {
@@ -179,16 +178,14 @@ namespace FeedbackCba.Controllers
                 }
                 else
                 {
-                    if (!string.IsNullOrWhiteSpace(user.Email))
+                    if (!string.IsNullOrWhiteSpace(user.Email) && existUser.Email != user.Email)
                     {
                         existUser.Email = user.Email;
-                        _context.Entry(existUser).State = EntityState.Modified;
                     }
 
-                    if (!string.IsNullOrWhiteSpace(user.Name))
+                    if (!string.IsNullOrWhiteSpace(user.Name) && existUser.Name != user.Name)
                     {
                         existUser.Name = user.Name;
-                        _context.Entry(existUser).State = EntityState.Modified;
                     }
                 }
 

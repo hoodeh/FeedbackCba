@@ -1,5 +1,5 @@
 ﻿using System;
-using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace FeedbackCba.ViewModel
 {
@@ -13,10 +13,10 @@ namespace FeedbackCba.ViewModel
         public DateTime SubmitDate { get; set; }
         public string UserId { get; set; }
         
-        [DisplayName("Name")]
+        [Display(Name = "Name")]
         public string UserName { get; set; }
         
-        [DisplayName("Email")]
+        [Display(Name = "Email")]
         public string UserEmail { get; set; }
 
         public bool ShouldShowRating
