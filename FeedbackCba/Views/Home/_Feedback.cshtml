@@ -13,22 +13,28 @@
             @if (Model.HasValidResult)
             {
                 <div id="feedback-result">
-                    <span>@Model.Score</span>
                     <span>Thanks for your feedback</span>
-                    <a href="#" onclick="editFeedback();return false;">Click to edit</a>
+                    <a href="#" onclick="Feedback.editFeedback(); return false;">Click to edit</a>
                 </div>
             }
             <div id="star-rating">
-                <span class="rate-star star-fade" id="star-rate-1" data-val="1"></span>
-                <span class="rate-star star-fade" id="star-rate-2" data-val="2"></span>
-                <span class="rate-star star-fade" id="star-rate-3" data-val="3"></span>
-                <span class="rate-star star-fade" id="star-rate-4" data-val="4"></span>
-                <span class="rate-star star-fade" id="star-rate-5" data-val="5"></span>
-                <span class="rate-star star-fade" id="star-rate-6" data-val="6"></span>
-                <span class="rate-star star-fade" id="star-rate-7" data-val="7"></span>
-                <span class="rate-star star-fade" id="star-rate-8" data-val="8"></span>
-                <span class="rate-star star-fade" id="star-rate-9" data-val="9"></span>
-                <span class="rate-star star-fade" id="star-rate-10" data-val="10"></span>
+                @{
+                    var spanClass = Model.HasValidResult ? "" : "rate-star";
+                    for (var i = 1; i <= 10; i++)
+                    {
+                        <span class="@spanClass star-fade" data-val="@i"></span>
+                    }
+                }
+                @*<span class="rate-star star-fade" data-val="1"></span>
+                <span class="rate-star star-fade" data-val="2"></span>
+                <span class="rate-star star-fade" data-val="3"></span>
+                <span class="rate-star star-fade" data-val="4"></span>
+                <span class="rate-star star-fade" data-val="5"></span>
+                <span class="rate-star star-fade" data-val="6"></span>
+                <span class="rate-star star-fade" data-val="7"></span>
+                <span class="rate-star star-fade" data-val="8"></span>
+                <span class="rate-star star-fade" data-val="9"></span>
+                <span class="rate-star star-fade" data-val="10"></span>*@
             </div>
         </div>
 
@@ -56,76 +62,6 @@
 
 <script type="text/javascript">
     $(function () {
-        $("#second-part").hide();
-
-        $("#star-rating .rate-star").on("click", function (e) {
-            var span = $(e.target);
-            var score = parseInt(span.attr("data-val"));
-            $("#Score").val(score); // set model value
-            showQuestion(score);
-        }).mouseover(function (e) {
-            var span = $(e.target);
-            console.log("in");
-            var score = parseInt(span.attr("data-val"));
-            //console.log("F:" + score);
-            setStarRate(score);
-        });
-
-        $("#star-rating").mouseout(function() {
-            console.log("Out");
-            var score = parseInt($("#Score").val());
-            //console.log("F:" + score);
-            setStarRate(score);
-        });
-
-        
-        setCookie("feedbackUserId", "@Model.UserId");
-
-        setStarRate(parseInt(@Model.Score));
+        Feedback.init();
     });
-
-    function showQuestion(score) {
-        $("#second-part").show();
-        var questionDiv = $("#question");
-        if (score <= 0) {
-            questionDiv.hide();
-            return;
-        }
-
-        questionDiv.find(".question").hide();
-        questionDiv.show();
-        if (score < 5) {
-            questionDiv.find(".rate-low").show();
-        } else if (score < 9) {
-            questionDiv.find(".rate-mid").show();
-        } else {
-            questionDiv.find(".rate-high").show();
-        }
-    }
-
-    function setCookie(name, value) {
-        document.cookie = name + "=" + value + ";path=/";
-    }
-
-    function editFeedback() {
-        //console.log("edit");
-        $("#feedback-result").hide();
-        $("#star-rating").show();
-        showQuestion($("#Score").val());
-    }
-
-    function setStarRate(score) {
-        //$("#star-rating .rate-star.star-glow").removeClass("star-glow").addClass("star-fade");
-        $("#star-rating .rate-star").each(function(index, star) {
-            if (index < score) {
-                $(star).addClass("star-glow").removeClass("star-fade");
-            } else {
-                $(star).addClass("star-fade").removeClass("star-glow");
-            }
-        });
-        //for (var i = 1; i <= score; i++) {
-        //    $("#star-rate-" + i).attr('class', 'rate-star star-glow');
-        //}
-    }
-
 </script>

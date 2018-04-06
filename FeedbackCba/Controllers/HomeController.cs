@@ -39,8 +39,12 @@ namespace FeedbackCba.Controllers
         {
             var user = GetUser(userId);
             var feedback = GetFeedback(user.Guid, url, isMainPage);
+            if (feedback == null || DateTime.Now > feedback.SubmitDate.AddDays(180))
+            {
+                feedback = new Feedback {UserId = user.Guid, PageUrl = url, IsMainPage = isMainPage};
+            }
 
-            var model = new FeedbackViewModel
+            return PartialView(new FeedbackViewModel
             {
                 Id = feedback.Id,
                 PageUrl = feedback.PageUrl,
@@ -51,10 +55,7 @@ namespace FeedbackCba.Controllers
                 UserId = user.Guid,
                 UserName = user.Name,
                 UserEmail = user.Email
-            };
-
-            ViewBag.Message = "Feedback page...";
-            return PartialView(model);
+            });
         }
 
         [HttpPost]
@@ -91,23 +92,11 @@ namespace FeedbackCba.Controllers
         private Feedback GetFeedback(string userId, string url, bool isMainPage)
         {
             try
-            { 
-                var feedback =_context.Feedbacks.FirstOrDefault(f =>
-                    f.UserId == userId &&
-                    f.PageUrl == url &&
-                    f.IsMainPage == isMainPage);
-
-                if (feedback == null)
-                {
-                    feedback = new Feedback
-                    {
-                        UserId = userId,
-                        PageUrl = url,
-                        IsMainPage = isMainPage
-                    };
-                }
-
-                return feedback;
+            {
+                return _context.Feedbacks
+                    .Where(f => f.UserId == userId && f.PageUrl == url && f.IsMainPage == isMainPage)
+                    .OrderByDescending(f => f.SubmitDate)
+                    .FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -156,6 +145,7 @@ namespace FeedbackCba.Controllers
                     existingFeedback.Answer = feedback.Answer;
                     existingFeedback.Score = feedback.Score;
                     existingFeedback.SubmitDate = DateTime.Now;
+                    _context.SaveChanges();
                 }
 
                 return true;
