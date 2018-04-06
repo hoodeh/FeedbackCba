@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace FeedbackCba.Repositories
 {
-    public class UserRepository
+    public class UserRepository : IUserRepository
     {
         private readonly ApplicationDbContext _context;
 
@@ -14,7 +14,7 @@ namespace FeedbackCba.Repositories
             _context = context;
         }
 
-        internal User GetUser(string userId)
+        public User GetUser(string userId)
         {
             try
             {
@@ -27,7 +27,7 @@ namespace FeedbackCba.Repositories
             }
         }
 
-        internal bool Update(User user)
+        public bool Update(User user)
         {
             try
             {

@@ -1,6 +1,6 @@
 ﻿using FeedbackCba.DAL;
 using FeedbackCba.Models;
-using FeedbackCba.Repositories;
+using FeedbackCba.Persistence;
 using FeedbackCba.ViewModel;
 using System;
 using System.Web.Mvc;
@@ -9,15 +9,11 @@ namespace FeedbackCba.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ApplicationDbContext _context;
-        private readonly UserRepository _userRepository;
-        private readonly FeedbackRepository _feedbackRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
         public HomeController()
         {
-            _context = new ApplicationDbContext();
-            _userRepository = new UserRepository(_context);
-            _feedbackRepository = new FeedbackRepository(_context);
+            _unitOfWork = new UnitOfWork(new ApplicationDbContext());
         }
 
         public ActionResult Index()
@@ -41,8 +37,8 @@ namespace FeedbackCba.Controllers
 
         public ActionResult _Feedback(string url, bool isMainPage, string userId)
         {
-            var user = _userRepository.GetUser(userId);
-            var feedback = _feedbackRepository.GetFeedback(user.Guid, url, isMainPage);
+            var user = _unitOfWork.Users.GetUser(userId);
+            var feedback = _unitOfWork.Feedbacks.GetFeedback(user.Guid, url, isMainPage);
             if (feedback == null || DateTime.Now > feedback.SubmitDate.AddDays(180))
             {
                 feedback = new Feedback {UserId = user.Guid, PageUrl = url, IsMainPage = isMainPage};
@@ -65,15 +61,15 @@ namespace FeedbackCba.Controllers
         [HttpPost]
         public ActionResult _UpdateFeedback(FeedbackViewModel feedback)
         {
-            _userRepository.Update(new User { Guid = feedback.UserId, Email = feedback.UserEmail, Name = feedback.UserName });
+            _unitOfWork.Users.Update(new User { Guid = feedback.UserId, Email = feedback.UserEmail, Name = feedback.UserName });
 
             if (feedback.Id > 0)
             {
-                _feedbackRepository.Update(feedback);
+                _unitOfWork.Feedbacks.Update(feedback);
             }
             else
             {
-                feedback.Id = _feedbackRepository.Create(feedback);
+                feedback.Id = _unitOfWork.Feedbacks.Create(feedback);
             }
 
             return Redirect(feedback.PageUrl);

@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace FeedbackCba.Repositories
 {
-    public class FeedbackRepository
+    public class FeedbackRepository : IFeedbackRepository
     {
         private readonly ApplicationDbContext _context;
         
@@ -15,7 +15,7 @@ namespace FeedbackCba.Repositories
             _context = context;
         }
 
-        internal Feedback GetFeedback(string userId, string url, bool isMainPage)
+        public Feedback GetFeedback(string userId, string url, bool isMainPage)
         {
             try
             {
@@ -31,7 +31,7 @@ namespace FeedbackCba.Repositories
             }
         }
 
-        internal int Create(FeedbackViewModel feedback)
+        public int Create(FeedbackViewModel feedback)
         {
             try
             {
@@ -57,7 +57,7 @@ namespace FeedbackCba.Repositories
             }
         }
 
-        internal bool Update(FeedbackViewModel feedback)
+        public bool Update(FeedbackViewModel feedback)
         {
             try
             {
