@@ -1,5 +1,4 @@
-﻿using FeedbackCba.DAL;
-using FeedbackCba.Models;
+﻿using FeedbackCba.Models;
 using FeedbackCba.Persistence;
 using FeedbackCba.ViewModel;
 using System;
@@ -11,9 +10,9 @@ namespace FeedbackCba.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public HomeController()
+        public HomeController(IUnitOfWork unitOfWork)
         {
-            _unitOfWork = new UnitOfWork(new ApplicationDbContext());
+            _unitOfWork = unitOfWork;
         }
 
         public ActionResult Index()

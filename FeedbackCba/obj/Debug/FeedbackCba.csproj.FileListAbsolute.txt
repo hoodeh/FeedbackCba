@@ -30,3 +30,12 @@ C:\Users\hhoodeh\Documents\Visual Studio 2013\Projects\FeedbackCba\FeedbackCba\b
 C:\Users\hhoodeh\Documents\Visual Studio 2013\Projects\FeedbackCba\FeedbackCba\obj\Debug\FeedbackCba.csprojResolveAssemblyReference.cache
 C:\Users\hhoodeh\Documents\Visual Studio 2013\Projects\FeedbackCba\FeedbackCba\obj\Debug\FeedbackCba.Migrations.feedback.resources
 C:\Users\hhoodeh\Documents\Visual Studio 2013\Projects\FeedbackCba\FeedbackCba\obj\Debug\FeedbackCba.csproj.GenerateResource.Cache
+C:\Users\hhoodeh\Documents\Visual Studio 2013\Projects\FeedbackCba\FeedbackCba\bin\Ninject.dll
+C:\Users\hhoodeh\Documents\Visual Studio 2013\Projects\FeedbackCba\FeedbackCba\bin\Ninject.Extensions.Conventions.dll
+C:\Users\hhoodeh\Documents\Visual Studio 2013\Projects\FeedbackCba\FeedbackCba\bin\Ninject.Web.Common.dll
+C:\Users\hhoodeh\Documents\Visual Studio 2013\Projects\FeedbackCba\FeedbackCba\bin\Ninject.Web.Mvc.dll
+C:\Users\hhoodeh\Documents\Visual Studio 2013\Projects\FeedbackCba\FeedbackCba\bin\WebActivatorEx.dll
+C:\Users\hhoodeh\Documents\Visual Studio 2013\Projects\FeedbackCba\FeedbackCba\bin\Ninject.xml
+C:\Users\hhoodeh\Documents\Visual Studio 2013\Projects\FeedbackCba\FeedbackCba\bin\Ninject.Extensions.Conventions.xml
+C:\Users\hhoodeh\Documents\Visual Studio 2013\Projects\FeedbackCba\FeedbackCba\bin\Ninject.Web.Common.xml
+C:\Users\hhoodeh\Documents\Visual Studio 2013\Projects\FeedbackCba\FeedbackCba\bin\Ninject.Web.Mvc.xml
