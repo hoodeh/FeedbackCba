@@ -1,7 +1,8 @@
 ﻿@model FeedbackCba.ViewModel.FeedbackViewModel
 
-@using (Html.BeginForm("_Feedback", "Home", new { id = "feedback-form" }))
+@using (Html.BeginForm("_UpdateFeedback", "Home"))
 {
+    @Html.HiddenFor(m => m.Id)
     @Html.HiddenFor(m => m.Score)
     @Html.HiddenFor(m => m.UserId)
     @Html.HiddenFor(m => m.IsMainPage)
@@ -9,25 +10,25 @@
     <div class="col-md-4">
         <div class="form-group">
             <label>@(Model.IsMainPage ? "How do you like this site?" : "How helpful is this page?")</label>
-            @if (!Model.ShouldShowRating)
+            @if (Model.HasValidResult)
             {
                 <div id="feedback-result">
                     <span>@Model.Score</span>
                     <span>Thanks for your feedback</span>
-                    <a href="#" onclick="editFeedback(); return false;">Click to edit</a>
+                    <a href="#" onclick="editFeedback();return false;">Click to edit</a>
                 </div>
             }
             <div id="star-rating">
-                <span class="rate-star star-fade" id="sRate1" data-val="1"></span>
-                <span class="rate-star star-fade" id="sRate2" data-val="2"></span>
-                <span class="rate-star star-fade" id="sRate3" data-val="3"></span>
-                <span class="rate-star star-fade" id="sRate4" data-val="4"></span>
-                <span class="rate-star star-fade" id="sRate5" data-val="5"></span>
-                <span class="rate-star star-fade" id="sRate6" data-val="6"></span>
-                <span class="rate-star star-fade" id="sRate7" data-val="7"></span>
-                <span class="rate-star star-fade" id="sRate8" data-val="8"></span>
-                <span class="rate-star star-fade" id="sRate9" data-val="9"></span>
-                <span class="rate-star star-fade" id="sRate10" data-val="10"></span>
+                <span class="rate-star star-fade" id="star-rate-1" data-val="1"></span>
+                <span class="rate-star star-fade" id="star-rate-2" data-val="2"></span>
+                <span class="rate-star star-fade" id="star-rate-3" data-val="3"></span>
+                <span class="rate-star star-fade" id="star-rate-4" data-val="4"></span>
+                <span class="rate-star star-fade" id="star-rate-5" data-val="5"></span>
+                <span class="rate-star star-fade" id="star-rate-6" data-val="6"></span>
+                <span class="rate-star star-fade" id="star-rate-7" data-val="7"></span>
+                <span class="rate-star star-fade" id="star-rate-8" data-val="8"></span>
+                <span class="rate-star star-fade" id="star-rate-9" data-val="9"></span>
+                <span class="rate-star star-fade" id="star-rate-10" data-val="10"></span>
             </div>
         </div>
 
@@ -64,12 +65,16 @@
             showQuestion(score);
         }).mouseover(function (e) {
             var span = $(e.target);
+            console.log("in");
             var score = parseInt(span.attr("data-val"));
-            console.log("F:" + score);
+            //console.log("F:" + score);
             setStarRate(score);
-        }).mouseout(function () {
+        });
+
+        $("#star-rating").mouseout(function() {
+            console.log("Out");
             var score = parseInt($("#Score").val());
-            console.log("F:" + score);
+            //console.log("F:" + score);
             setStarRate(score);
         });
 
@@ -103,17 +108,24 @@
     }
 
     function editFeedback() {
-        console.log("edit");
+        //console.log("edit");
         $("#feedback-result").hide();
         $("#star-rating").show();
         showQuestion($("#Score").val());
     }
 
     function setStarRate(score) {
-        $("#star-rating .rate-star.star-glow").removeClass("star-glow").addClass("star-fade");
-        for (var i = 1; i <= score; i++) {
-            $("#sRate" + i).attr('class', 'rate-star star-glow');
-        }
+        //$("#star-rating .rate-star.star-glow").removeClass("star-glow").addClass("star-fade");
+        $("#star-rating .rate-star").each(function(index, star) {
+            if (index < score) {
+                $(star).addClass("star-glow").removeClass("star-fade");
+            } else {
+                $(star).addClass("star-fade").removeClass("star-glow");
+            }
+        });
+        //for (var i = 1; i <= score; i++) {
+        //    $("#star-rate-" + i).attr('class', 'rate-star star-glow');
+        //}
     }
 
 </script>

@@ -19,9 +19,9 @@ namespace FeedbackCba.ViewModel
         [Display(Name = "Email")]
         public string UserEmail { get; set; }
 
-        public bool ShouldShowRating
+        public bool HasValidResult
         {
-            get { return Id == 0 || SubmitDate.AddDays(180) < DateTime.Now; }
+            get { return Id > 0 && SubmitDate.AddDays(180) > DateTime.Now; }
         }
     }
 }

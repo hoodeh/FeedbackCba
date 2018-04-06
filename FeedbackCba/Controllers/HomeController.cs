@@ -58,7 +58,7 @@ namespace FeedbackCba.Controllers
         }
 
         [HttpPost]
-        public ActionResult _Feedback(FeedbackViewModel feedback)
+        public ActionResult _UpdateFeedback(FeedbackViewModel feedback)
         {
             UpdateUser(new User {Guid = feedback.UserId, Email = feedback.UserEmail, Name = feedback.UserName});
 
