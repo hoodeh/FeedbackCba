@@ -19,6 +19,11 @@ namespace FeedbackCba.ViewModel
         [Display(Name = "Email")]
         public string UserEmail { get; set; }
 
+        public string Question
+        {
+            get { return IsMainPage ? "How do you like this site?" : "How helpful is this page?"; }
+        }
+
         public bool HasValidResult
         {
             get { return Id > 0 && SubmitDate.AddDays(180) > DateTime.Now; }

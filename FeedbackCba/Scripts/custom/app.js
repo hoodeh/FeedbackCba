@@ -47,9 +47,8 @@
     }
 
     function editFeedback() {
-        //console.log("edit");
         $("#feedback-result").hide();
-        $("#star-rating").show();
+        $("#main-question").removeClass("hidden");
         $("#star-rating span").addClass("rate-star");
         showQuestion($("#Score").val());
     }

@@ -7,56 +7,44 @@
     @Html.HiddenFor(m => m.UserId)
     @Html.HiddenFor(m => m.IsMainPage)
     @Html.HiddenFor(m => m.PageUrl)
-    <div class="col-md-4">
-        <div class="form-group">
-            <label>@(Model.IsMainPage ? "How do you like this site?" : "How helpful is this page?")</label>
-            @if (Model.HasValidResult)
-            {
-                <div id="feedback-result">
-                    <span>Thanks for your feedback</span>
-                    <a href="#" onclick="Feedback.editFeedback(); return false;">Click to edit</a>
-                </div>
-            }
-            <div id="star-rating">
-                @{
-                    var spanClass = Model.HasValidResult ? "" : "rate-star";
-                    for (var i = 1; i <= 10; i++)
-                    {
-                        <span class="@spanClass star-fade" data-val="@i"></span>
-                    }
+    <div class="form-group">
+        <label id="main-question" class="@(Model.HasValidResult ? "hidden" : "")">@Model.Question</label>
+        @if (Model.HasValidResult)
+        {
+            <div id="feedback-result">
+                <span>Thanks for your feedback</span>
+                <a href="#" onclick="Feedback.editFeedback(); return false;">Click to edit</a>
+            </div>
+        }
+        <div id="star-rating">
+            @{
+                var spanClass = Model.HasValidResult ? "" : "rate-star";
+                for (var i = 1; i <= 10; i++)
+                {
+                    <span class="@spanClass star-fade" data-val="@i"></span>
                 }
-                @*<span class="rate-star star-fade" data-val="1"></span>
-                <span class="rate-star star-fade" data-val="2"></span>
-                <span class="rate-star star-fade" data-val="3"></span>
-                <span class="rate-star star-fade" data-val="4"></span>
-                <span class="rate-star star-fade" data-val="5"></span>
-                <span class="rate-star star-fade" data-val="6"></span>
-                <span class="rate-star star-fade" data-val="7"></span>
-                <span class="rate-star star-fade" data-val="8"></span>
-                <span class="rate-star star-fade" data-val="9"></span>
-                <span class="rate-star star-fade" data-val="10"></span>*@
-            </div>
+            }
+        </div>
+    </div>
+
+    <div id="second-part">
+        <div id="question" class="form-group">
+            <label class="question rate-low">What can we do to improve?</label>
+            <label class="question rate-mid">Is there anything we can do to improve?</label>
+            <label class="question rate-high">Is there anything you particularly like?</label>
+            @Html.TextAreaFor(m => m.Answer, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.UserName)
+            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
         </div>
 
-        <div id="second-part">
-            <div id="question" class="form-group">
-                <label class="question rate-low">What can we do to improve?</label>
-                <label class="question rate-mid">Is there anything we can do to improve?</label>
-                <label class="question rate-high">Is there anything you particularly like?</label>
-                @Html.TextAreaFor(m => m.Answer, new { @class = "form-control" })
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.UserName)
-                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(m => m.UserEmail)
-                @Html.TextBoxFor(m => m.UserEmail, new { @class = "form-control" })
-            </div>
-
-            <button type="submit" class="btn btn-default btn-sm">Submit</button>
+        <div class="form-group">
+            @Html.LabelFor(m => m.UserEmail)
+            @Html.TextBoxFor(m => m.UserEmail, new { @class = "form-control" })
         </div>
+
+        <button type="submit" class="btn btn-default btn-sm">Submit</button>
     </div>
 }
 
