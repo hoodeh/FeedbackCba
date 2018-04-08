@@ -151,17 +151,17 @@
       <DependentUpon>201804010427145_feedback.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="DAL\ApplicationDbContext.cs" />
-    <Compile Include="Models\Feedback.cs" />
-    <Compile Include="Models\User.cs" />
-    <Compile Include="Persistence\IUnitOfWork.cs" />
+    <Compile Include="Persistence\ApplicationDbContext.cs" />
+    <Compile Include="Core\Models\Feedback.cs" />
+    <Compile Include="Core\Models\User.cs" />
+    <Compile Include="Core\IUnitOfWork.cs" />
     <Compile Include="Persistence\UnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\FeedbackRepository.cs" />
-    <Compile Include="Repositories\IFeedbackRepository.cs" />
-    <Compile Include="Repositories\IUserRepository.cs" />
-    <Compile Include="Repositories\UserRepository.cs" />
-    <Compile Include="ViewModel\FeedbackViewModel.cs" />
+    <Compile Include="Persistence\Repositories\FeedbackRepository.cs" />
+    <Compile Include="Core\Repositories\IFeedbackRepository.cs" />
+    <Compile Include="Core\Repositories\IUserRepository.cs" />
+    <Compile Include="Persistence\Repositories\UserRepository.cs" />
+    <Compile Include="Core\ViewModel\FeedbackViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />

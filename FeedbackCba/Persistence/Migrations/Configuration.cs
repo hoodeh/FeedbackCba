@@ -1,4 +1,4 @@
-using FeedbackCba.DAL;
+using FeedbackCba.Persistence;
 
 namespace FeedbackCba.Migrations
 {
@@ -9,6 +9,7 @@ namespace FeedbackCba.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
+            MigrationsDirectory = @"Persistence\Migrations";
         }
 
         protected override void Seed(ApplicationDbContext context)

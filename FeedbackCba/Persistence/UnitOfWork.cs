@@ -1,5 +1,6 @@
-﻿using FeedbackCba.DAL;
-using FeedbackCba.Repositories;
+﻿using FeedbackCba.Core;
+using FeedbackCba.Core.Repositories;
+using FeedbackCba.Persistence.Repositories;
 
 namespace FeedbackCba.Persistence
 {

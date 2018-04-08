@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace FeedbackCba.ViewModel
+namespace FeedbackCba.Core.ViewModel
 {
     public class FeedbackViewModel
     {

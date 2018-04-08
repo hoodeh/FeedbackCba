@@ -1,9 +1,9 @@
-﻿using FeedbackCba.DAL;
-using FeedbackCba.Models;
-using System;
+﻿using System;
 using System.Linq;
+using FeedbackCba.Core.Models;
+using FeedbackCba.Core.Repositories;
 
-namespace FeedbackCba.Repositories
+namespace FeedbackCba.Persistence.Repositories
 {
     public class UserRepository : IUserRepository
     {

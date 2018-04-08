@@ -1,6 +1,6 @@
-﻿using FeedbackCba.Repositories;
+﻿using FeedbackCba.Core.Repositories;
 
-namespace FeedbackCba.Persistence
+namespace FeedbackCba.Core
 {
     public interface IUnitOfWork
     {

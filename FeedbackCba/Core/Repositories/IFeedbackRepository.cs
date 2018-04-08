@@ -1,7 +1,7 @@
-﻿using FeedbackCba.Models;
-using FeedbackCba.ViewModel;
+﻿using FeedbackCba.Core.Models;
+using FeedbackCba.Core.ViewModel;
 
-namespace FeedbackCba.Repositories
+namespace FeedbackCba.Core.Repositories
 {
     public interface IFeedbackRepository
     {

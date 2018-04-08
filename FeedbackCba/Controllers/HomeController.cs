@@ -1,6 +1,6 @@
-﻿using FeedbackCba.Models;
-using FeedbackCba.Persistence;
-using FeedbackCba.ViewModel;
+﻿using FeedbackCba.Core;
+using FeedbackCba.Core.Models;
+using FeedbackCba.Core.ViewModel;
 using System;
 using System.Web.Mvc;
 

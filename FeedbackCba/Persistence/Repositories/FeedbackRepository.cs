@@ -1,10 +1,10 @@
-﻿using FeedbackCba.DAL;
-using FeedbackCba.Models;
-using FeedbackCba.ViewModel;
-using System;
+﻿using System;
 using System.Linq;
+using FeedbackCba.Core.Models;
+using FeedbackCba.Core.Repositories;
+using FeedbackCba.Core.ViewModel;
 
-namespace FeedbackCba.Repositories
+namespace FeedbackCba.Persistence.Repositories
 {
     public class FeedbackRepository : IFeedbackRepository
     {

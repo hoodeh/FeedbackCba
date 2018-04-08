@@ -1,8 +1,8 @@
-﻿using FeedbackCba.Models;
+﻿using FeedbackCba.Core.Models;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 
-namespace FeedbackCba.DAL
+namespace FeedbackCba.Persistence
 {
     public class ApplicationDbContext : DbContext
     {

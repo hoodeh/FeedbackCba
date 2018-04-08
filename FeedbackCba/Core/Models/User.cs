@@ -1,7 +1,7 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
 
-namespace FeedbackCba.Models
+namespace FeedbackCba.Core.Models
 {
     public class User
     {
