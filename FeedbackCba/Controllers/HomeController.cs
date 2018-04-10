@@ -43,6 +43,11 @@ namespace FeedbackCba.Controllers
             }
 
             var customer = _unitOfWork.Customers.GetCustomer(customerId);
+            if (customer == null)
+            {
+                return HttpNotFound();
+            }
+
             if (!customer.IsEnabled || customer.ExpireDate < DateTime.Now)
             {
                 return View("ExpiredPackage");
