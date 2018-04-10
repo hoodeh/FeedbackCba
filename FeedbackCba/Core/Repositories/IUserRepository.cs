@@ -4,7 +4,7 @@ namespace FeedbackCba.Core.Repositories
 {
     public interface IUserRepository
     {
-        User GetUser(string userId);
-        bool Update(User user);
+        //User GetUser(string userId);
+        //bool Update(User user);
     }
 }

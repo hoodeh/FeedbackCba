@@ -6,8 +6,9 @@ namespace FeedbackCba.Persistence
 {
     public class ApplicationDbContext : DbContext
     {
-        public DbSet<User> Users { get; set; }
+        public DbSet<Customer> Customers { get; set; }
         public DbSet<Feedback> Feedbacks { get; set; }
+        public DbSet<Question> Questions { get; set; }
 
         public ApplicationDbContext()
             : base("FeedbackCbaConn")
@@ -22,6 +23,11 @@ namespace FeedbackCba.Persistence
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+
+            modelBuilder.Entity<Question>()
+                .HasRequired(q => q.Customer)
+                .WithMany(c => c.Questions)
+                .WillCascadeOnDelete(false);
         }
     }
 }

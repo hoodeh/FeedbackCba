@@ -1,32 +1,22 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
+using FeedbackCba.Core.Models;
 
 namespace FeedbackCba.Core.ViewModel
 {
     public class FeedbackViewModel
     {
-        public int Id { get; set; }
-        public string PageUrl { get; set; }
-        public bool IsMainPage { get; set; }
-        public string Answer { get; set; }
-        public decimal Score { get; set; }
-        public DateTime SubmitDate { get; set; }
+        public string CustomerId { get; set; }
         public string UserId { get; set; }
-        
-        [Display(Name = "Name")]
-        public string UserName { get; set; }
-        
-        [Display(Name = "Email")]
-        public string UserEmail { get; set; }
-
-        public string Question
-        {
-            get { return IsMainPage ? "How do you like this site?" : "How helpful is this page?"; }
-        }
-
-        public bool HasValidResult
-        {
-            get { return Id > 0 && SubmitDate.AddDays(180) > DateTime.Now; }
-        }
+        public bool IsMainPage { get; set; }
+        public string PageUrl { get; set; }
+        public string Statement { get; set; }
+        public string MainQuestion { get; set; }
+        public decimal Rate { get; set; }
+        public DateTime SubmitDate { get; set; }
+        public int QuestionId { get; set; }
+        public IEnumerable<Question> Questions { get; set; }
+        public string UserReply { get; set; }
+        public string BgColor { get; set; }
     }
 }

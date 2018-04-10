@@ -1,0 +1,64 @@
+﻿@model FeedbackCba.Core.ViewModel.FeedbackViewModel
+
+@{
+    Layout = "";
+}
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" ></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="http://localhost:59955/Content/Site.css">
+
+
+<script>
+    $(function(){
+        $("#feedback__header").click(function () {
+            $("#feedback__form").toggleClass("hidden");
+            //if($("#feedback__form").css("display")==="none"){
+            //    $("#feedback__form").show();
+            //}else{
+            //    $("#feedback__form").hide();
+            //}
+        });
+
+        console.log(window.location.href);
+    });
+</script>
+@Html.HiddenFor(m => m.CustomerId)
+@Html.HiddenFor(m => m.UserId)
+@Html.HiddenFor(m => m.IsMainPage)
+@Html.HiddenFor(m => m.PageUrl)
+@Html.HiddenFor(m => m.QuestionId)
+<div id="feedback" style="position:fixed;bottom:0px;right:0px;">
+    <div id="feedback__header" style="padding:10px;background-color:@Model.BgColor;">
+        FEEDBACK
+    </div>
+    <div id="feedback__form" class="hidden" @*style="display:none"*@>
+        @Html.LabelFor(m => m.MainQuestion)
+        <div id="star-rating">
+            @{
+                for (var i = 1; i <= 10; i++)
+                {
+                    <span class="rate-star star-fade" data-val="@i">"@i</span>
+                }
+            }
+        </div>
+        <div id="second-part">
+            <div id="question" class="form-group">
+                @{
+                    foreach (var question in Model.Questions)
+                    {
+                        <label class="question"> @question.Text </label>
+                    }
+                }
+                @*<label class="question rate-low">What can we do to improve?</label>
+                <label class="question rate-mid">Is there anything we can do to improve?</label>
+                <label class="question rate-high">Is there anything you particularly like?</label>*@
+                @Html.TextAreaFor(m => m.UserReply, new {@class = "form-control"})
+            </div>
+            <button type="button" class="btn btn-default btn-sm">Submit</button>
+        </div>
+    </div>
+</div>
+

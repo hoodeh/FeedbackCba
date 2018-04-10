@@ -7,13 +7,13 @@ namespace FeedbackCba.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class feedback : IMigrationMetadata
+    public sealed partial class UpdateCustomerFields : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(feedback));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(UpdateCustomerFields));
         
         string IMigrationMetadata.Id
         {
-            get { return "201804010427145_feedback"; }
+            get { return "201804081057076_UpdateCustomerFields"; }
         }
         
         string IMigrationMetadata.Source

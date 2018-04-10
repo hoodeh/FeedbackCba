@@ -8,14 +8,16 @@ namespace FeedbackCba.Persistence
     {
         private readonly ApplicationDbContext _context;
 
+        public ICustomerReporitory Customers { get; private set; }
         public IFeedbackRepository Feedbacks { get; private set; }
         public IUserRepository Users { get; private set; }
 
         public UnitOfWork(ApplicationDbContext context)
         {
             _context = context;
-            Feedbacks = new FeedbackRepository(context);
-            Users = new UserRepository(context);
+            Customers = new CustomerReporitory(context);
+            //Feedbacks = new FeedbackRepository(context);
+            //Users = new UserRepository(context);
         }
 
         public void Complete()

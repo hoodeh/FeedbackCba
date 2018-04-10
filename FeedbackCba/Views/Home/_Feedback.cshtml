@@ -2,11 +2,11 @@
 
 @using (Html.BeginForm("_UpdateFeedback", "Home"))
 {
-    @Html.HiddenFor(m => m.Id)
+    @*@Html.HiddenFor(m => m.Id)
     @Html.HiddenFor(m => m.Score)
     @Html.HiddenFor(m => m.UserId)
     @Html.HiddenFor(m => m.IsMainPage)
-    @Html.HiddenFor(m => m.PageUrl)
+    @Html.HiddenFor(m => m.PageUrl)*@
     <div class="form-group">
         <label id="main-question" class="@(Model.HasValidResult ? "hidden" : "")">@Model.Question</label>
         @if (Model.HasValidResult)
