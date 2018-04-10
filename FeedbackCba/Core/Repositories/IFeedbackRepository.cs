@@ -5,8 +5,7 @@ namespace FeedbackCba.Core.Repositories
 {
     public interface IFeedbackRepository
     {
-        Feedback GetFeedback(string userId, string url, bool isMainPage);
-        int Create(FeedbackViewModel feedback);
-        bool Update(FeedbackViewModel feedback);
+        Feedback GetFeedback(string customerId, string pageUrl, bool isMainPage, string userId = "");
+        bool Create(FeedbackViewModel feedback);
     }
 }

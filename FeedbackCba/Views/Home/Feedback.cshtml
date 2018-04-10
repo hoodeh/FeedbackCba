@@ -6,59 +6,189 @@
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js" ></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet" href="http://localhost:59955/Content/Site.css">
 
+<style>
+    
+    #feedback.menu {
+        position: fixed;
+        bottom: 0;
+        right: 0;
+    }
 
-<script>
-    $(function(){
-        $("#feedback__header").click(function () {
-            $("#feedback__form").toggleClass("hidden");
-            //if($("#feedback__form").css("display")==="none"){
-            //    $("#feedback__form").show();
-            //}else{
-            //    $("#feedback__form").hide();
-            //}
-        });
+    #feedback-header {
+        padding: 10px;
+    }
 
-        console.log(window.location.href);
-    });
-</script>
+    #feedback-header:hover {
+        cursor: pointer;
+    }
+</style>
+@{ Ajax.BeginForm("", "",
+       new AjaxOptions
+       {
+           HttpMethod = "POST",
+           Url = "http://localhost:59955/Home/_AjaxUpdateFeedback",
+           OnSuccess = "updateFeedbackOnSuccess",
+           OnBegin = "updateFeedbackOnBegin",
+           OnComplete = "updateFeedbackOnComplete",
+           OnFailure = "updateFeedbackOnFailure",
+       },
+       new { id = "form-update-feedback", name = "form-update-feedback" });
+}
+
 @Html.HiddenFor(m => m.CustomerId)
 @Html.HiddenFor(m => m.UserId)
 @Html.HiddenFor(m => m.IsMainPage)
 @Html.HiddenFor(m => m.PageUrl)
+@Html.HiddenFor(m => m.Rate)
 @Html.HiddenFor(m => m.QuestionId)
-<div id="feedback" style="position:fixed;bottom:0px;right:0px;">
-    <div id="feedback__header" style="padding:10px;background-color:@Model.BgColor;">
+<div id="feedback" class="menu">
+    <div id="feedback-header" style="background-color:@Model.BgColor;">
         FEEDBACK
     </div>
-    <div id="feedback__form" class="hidden" @*style="display:none"*@>
-        @Html.LabelFor(m => m.MainQuestion)
+    <div id="feedback-form" class="hidden">
+        @Html.Label(Model.MainQuestion)
         <div id="star-rating">
             @{
                 for (var i = 1; i <= 10; i++)
                 {
-                    <span class="rate-star star-fade" data-val="@i">"@i</span>
+                    <span class="rate-star star-fade" data-val="@i"></span>
                 }
             }
         </div>
-        <div id="second-part">
+        <div id="follow-up-question">
             <div id="question" class="form-group">
                 @{
                     foreach (var question in Model.Questions)
                     {
-                        <label class="question"> @question.Text </label>
+                        <label class="question" data-id="@question.Id" data-from-rate="@question.FromRate" data-to-rate="@question.ToRate">
+                            @question.Text
+                        </label>
                     }
                 }
-                @*<label class="question rate-low">What can we do to improve?</label>
-                <label class="question rate-mid">Is there anything we can do to improve?</label>
-                <label class="question rate-high">Is there anything you particularly like?</label>*@
                 @Html.TextAreaFor(m => m.UserReply, new {@class = "form-control"})
             </div>
-            <button type="button" class="btn btn-default btn-sm">Submit</button>
+            <button id="feedback-submit" type="submit" class="btn btn-default btn-sm">Submit</button>
         </div>
     </div>
 </div>
 
+@{
+    Html.EndForm();
+}
+
+<script>
+    $(function () {
+        init();
+        console.log(window.location.href);
+    });
+
+    function init() {
+        $("#follow-up-question").hide();
+
+        $("#feedback-header").on("click", function () {
+            $("#feedback-form").toggleClass("hidden");
+        });
+
+        $("#star-rating").on("click", ".rate-star", function (e) {
+            var span = $(e.target);
+            var rate = parseInt(span.attr("data-val"));
+            $("#Rate").val(rate); // set model value
+            showQuestion(rate);
+        }).on("mouseover", ".rate-star", function (e) {
+            var span = $(e.target);
+            var rate = parseInt(span.attr("data-val"));
+            setStarRate(rate);
+        }).on("mouseout", ".rate-star", function () {
+            var rate = parseInt($("#Rate").val());
+            setStarRate(rate);
+        });
+
+        setStarRate(parseInt($("#Rate").val()));
+    }
+
+    function showQuestion(rate) {
+        $("#follow-up-question").show();
+        var questionDiv = $("#question");
+        if (rate <= 0) {
+            questionDiv.hide();
+            return;
+        }
+
+        //questionDiv.find(".question").hide();
+        questionDiv.show();
+        questionDiv.find(".question").each(function () {
+            var fromRate = parseInt($(this).attr("data-from-rate"));
+            var toRate = parseInt($(this).attr("data-to-rate"));
+            console.log(fromRate);
+            console.log(toRate);
+            console.log(rate);
+            if (rate < fromRate || rate > toRate) {
+                $(this).hide();
+            } else {
+                $(this).show();
+                $("#QuestionId").val(parseInt($(this).attr("data-id")));
+            }
+        });
+        //if (rate < 5) {
+        //    questionDiv.find(".rate-low").show();
+        //} else if (rate < 9) {
+        //    questionDiv.find(".rate-mid").show();
+        //} else {
+        //    questionDiv.find(".rate-high").show();
+        //}
+    }
+
+    function setCookie(name, value) {
+        document.cookie = name + "=" + value + ";path=/";
+    }
+
+    function editFeedback() {
+        $("#feedback-result").hide();
+        $("#main-question").removeClass("hidden");
+        $("#star-rating span").addClass("rate-star");
+        showQuestion($("#Rate").val());
+    }
+
+    function setStarRate(rate) {
+        $("#star-rating span").each(function (index, star) {
+            if (index < rate) {
+                $(star).addClass("star-glow").removeClass("star-fade");
+            } else {
+                $(star).addClass("star-fade").removeClass("star-glow");
+            }
+        });
+    }
+
+    function update_audit_OnSuccess(data) {
+        if (data.type === "success") {
+            setCookie("feedback_" + $("#CustomerId").val() + "_" + $("#UserId").val(), $("#PageUrl").val());
+            $("#form-update-feedback").remove();
+        } else {
+            console.log(data.message);
+        }
+    }
+
+    function updateFeedbackOnBegin(e) {
+        debugger;
+        if ($("#form-update-feedback").data('submitting') === true) {
+            e.abort();
+            return false;
+        } else {
+            $("#form-update-feedback").data('submitting', true);
+        }
+    }
+
+    function updateFeedbackOnComplete() {
+        $("#form-update-feedback").removeData('submitting');
+    }
+
+    function updateFeedbackOnFailure() {
+        console.log("error on calling ajax");
+    }
+
+</script>

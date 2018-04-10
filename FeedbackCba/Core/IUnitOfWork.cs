@@ -6,7 +6,6 @@ namespace FeedbackCba.Core
     {
         ICustomerReporitory Customers { get; }
         IFeedbackRepository Feedbacks { get; }
-        IUserRepository Users { get; }
         void Complete();
     }
 }

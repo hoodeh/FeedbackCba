@@ -1,86 +1,59 @@
-﻿//using System;
-//using System.Linq;
-//using FeedbackCba.Core.Models;
-//using FeedbackCba.Core.Repositories;
-//using FeedbackCba.Core.ViewModel;
+﻿using FeedbackCba.Core.Models;
+using FeedbackCba.Core.Repositories;
+using FeedbackCba.Core.ViewModel;
+using System;
+using System.Linq;
 
-//namespace FeedbackCba.Persistence.Repositories
-//{
-//    public class FeedbackRepository : IFeedbackRepository
-//    {
-//        private readonly ApplicationDbContext _context;
-        
-//        public FeedbackRepository(ApplicationDbContext context)
-//        {
-//            _context = context;
-//        }
+namespace FeedbackCba.Persistence.Repositories
+{
+    public class FeedbackRepository : IFeedbackRepository
+    {
+        private readonly ApplicationDbContext _context;
 
-//        public Feedback GetFeedback(string userId, string url, bool isMainPage)
-//        {
-//            try
-//            {
-//                return _context.Feedbacks
-//                    .Where(f => f.UserId == userId && f.PageUrl == url && f.IsMainPage == isMainPage)
-//                    .OrderByDescending(f => f.SubmitDate)
-//                    .FirstOrDefault();
-//            }
-//            catch (Exception ex)
-//            {
-//                Console.WriteLine(ex);
-//                return new Feedback();
-//            }
-//        }
+        public FeedbackRepository(ApplicationDbContext context)
+        {
+            _context = context;
+        }
 
-//        public int Create(FeedbackViewModel feedback)
-//        {
-//            try
-//            {
-//                var newFeedback = new Feedback
-//                {
-//                    UserId = feedback.UserId,
-//                    //Score = feedback.Score,
-//                    //Answer = feedback.Answer,
-//                    IsMainPage = feedback.IsMainPage,
-//                    PageUrl = feedback.PageUrl,
-//                    SubmitDate = DateTime.Now
-//                };
+        public Feedback GetFeedback(string customerId, string pageUrl, bool isMainPage, string userId = "")
+        {
+            try
+            {
+                return _context.Feedbacks
+                    .Where(f => f.CustomerId == new Guid(customerId) && f.PageUrl == pageUrl && f.IsMainPage == isMainPage && (f.UserId ?? "") == userId)
+                    .OrderByDescending(f => f.SubmitDate)
+                    .FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return new Feedback();
+            }
+        }
 
-//                _context.Feedbacks.Add(newFeedback);
-//                _context.SaveChanges();
+        public bool Create(FeedbackViewModel feedback)
+        {
+            try
+            {
+                _context.Feedbacks.Add(new Feedback
+                {
+                    CustomerId = new Guid(feedback.CustomerId),
+                    UserId = feedback.UserId ?? "",
+                    Rate = feedback.Rate,
+                    IsMainPage = feedback.IsMainPage,
+                    PageUrl = feedback.PageUrl,
+                    QuestionId = feedback.QuestionId,
+                    UserReply = feedback.UserReply ?? "",
+                    SubmitDate = DateTime.Now
+                });
 
-//                return newFeedback.Id;
-//            }
-//            catch (Exception ex)
-//            {
-//                Console.WriteLine(ex);
-//                return 0;
-//            }
-//        }
-
-//        public bool Update(FeedbackViewModel feedback)
-//        {
-//            try
-//            {
-//                var existingFeedback = _context.Feedbacks.FirstOrDefault(f => f.Id == feedback.Id && f.UserId == feedback.UserId);
-//                if (existingFeedback == null)
-//                {
-//                    Create(feedback);
-//                }
-//                else
-//                {
-//                    //existingFeedback.Answer = feedback.Answer;
-//                    //existingFeedback.Score = feedback.Score;
-//                    existingFeedback.SubmitDate = DateTime.Now;
-//                    _context.SaveChanges();
-//                }
-
-//                return true;
-//            }
-//            catch (Exception ex)
-//            {
-//                Console.WriteLine(ex);
-//                return false;
-//            }
-//        }
-//    }
-//}
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return false;
+            }
+        }
+    }
+}

@@ -27,7 +27,6 @@ C:\Users\hhoodeh\Documents\Visual Studio 2013\Projects\FeedbackCba\FeedbackCba\b
 C:\Users\hhoodeh\Documents\Visual Studio 2013\Projects\FeedbackCba\FeedbackCba\bin\EntityFramework.SqlServer.dll
 C:\Users\hhoodeh\Documents\Visual Studio 2013\Projects\FeedbackCba\FeedbackCba\bin\EntityFramework.xml
 C:\Users\hhoodeh\Documents\Visual Studio 2013\Projects\FeedbackCba\FeedbackCba\bin\EntityFramework.SqlServer.xml
-C:\Users\hhoodeh\Documents\Visual Studio 2013\Projects\FeedbackCba\FeedbackCba\obj\Debug\FeedbackCba.csprojResolveAssemblyReference.cache
 C:\Users\hhoodeh\Documents\Visual Studio 2013\Projects\FeedbackCba\FeedbackCba\bin\Ninject.dll
 C:\Users\hhoodeh\Documents\Visual Studio 2013\Projects\FeedbackCba\FeedbackCba\bin\Ninject.Extensions.Conventions.dll
 C:\Users\hhoodeh\Documents\Visual Studio 2013\Projects\FeedbackCba\FeedbackCba\bin\Ninject.Web.Common.dll
@@ -44,3 +43,4 @@ C:\Users\hhoodeh\Documents\Visual Studio 2013\Projects\FeedbackCba\FeedbackCba\o
 C:\Users\hhoodeh\Documents\Visual Studio 2013\Projects\FeedbackCba\FeedbackCba\obj\Debug\FeedbackCba.Migrations.UpdateCustomerFields.resources
 C:\Users\hhoodeh\Documents\Visual Studio 2013\Projects\FeedbackCba\FeedbackCba\obj\Debug\FeedbackCba.Migrations.addingStatementAndQuestionToCustomer.resources
 C:\Users\hhoodeh\Documents\Visual Studio 2013\Projects\FeedbackCba\FeedbackCba\obj\Debug\FeedbackCba.Migrations.LinkQuestiontoCustomer.resources
+C:\Users\hhoodeh\Documents\Visual Studio 2013\Projects\FeedbackCba\FeedbackCba\obj\Debug\FeedbackCba.csprojResolveAssemblyReference.cache

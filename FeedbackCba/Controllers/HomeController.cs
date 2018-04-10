@@ -1,6 +1,7 @@
 ﻿using FeedbackCba.Core;
 using FeedbackCba.Core.ViewModel;
 using System;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace FeedbackCba.Controllers
@@ -33,50 +34,8 @@ namespace FeedbackCba.Controllers
             return View();
         }
 
-        public ActionResult _Feedback(string url, bool isMainPage, string userId)
-        {
-            //var user = _unitOfWork.Users.GetUser(userId);
-            //var feedback = _unitOfWork.Feedbacks.GetFeedback(user.Guid, url, isMainPage);
-            //if (feedback == null || DateTime.Now > feedback.SubmitDate.AddDays(180))
-            //{
-            //    feedback = new Feedback {UserId = user.Guid, PageUrl = url, IsMainPage = isMainPage};
-            //}
-
-            //return PartialView(new FeedbackViewModel
-            //{
-            //    Id = feedback.Id,
-            //    PageUrl = feedback.PageUrl,
-            //    IsMainPage = feedback.IsMainPage,
-            //    Answer = feedback.Answer,
-            //    Score = feedback.Score,
-            //    SubmitDate = feedback.SubmitDate,
-            //    UserId = user.Guid,
-            //    UserName = user.Name,
-            //    UserEmail = user.Email
-            //});
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult _UpdateFeedback(FeedbackViewModel feedback)
-        {
-            //_unitOfWork.Users.Update(new User { Guid = feedback.UserId, Email = feedback.UserEmail, Name = feedback.UserName });
-
-            //if (feedback.Id > 0)
-            //{
-            //    _unitOfWork.Feedbacks.Update(feedback);
-            //}
-            //else
-            //{
-            //    feedback.Id = _unitOfWork.Feedbacks.Create(feedback);
-            //}
-
-            //return Redirect(feedback.PageUrl);
-            return Redirect("");
-        }
-
         [HttpGet]
-        public ActionResult Feedback(string customerId, string pageUrl, bool isMainPage, string userId = "")
+        public ActionResult Feedback(string customerId, string pageUrl, bool isMainPage = true, string userId = "")
         {
             if (string.IsNullOrEmpty(customerId))
             {
@@ -89,7 +48,12 @@ namespace FeedbackCba.Controllers
                 return View("ExpiredPackage");
             }
 
-            var model = new FeedbackViewModel
+            if(!customer.ValidDomains.Split(';').Any(valiDomain => pageUrl.ToLower().Contains(valiDomain.ToLower())))
+            {
+                throw new UnauthorizedAccessException("Unauthorized web address");
+            }
+
+            return View(new FeedbackViewModel
             {
                 CustomerId = customerId,
                 UserId = userId,
@@ -99,9 +63,34 @@ namespace FeedbackCba.Controllers
                 MainQuestion = isMainPage ? customer.AppLevelQuestion : customer.PageLevelQuestion,
                 Questions = customer.Questions,
                 BgColor = customer.BgColor
-            };
+            });
+        }
 
-            return View(model);
+        /// <summary>
+        /// POST : /Home/_AjaxUpdateFeedback
+        /// <para>Create feedback.</para>
+        /// </summary>
+        /// <returns>Json object with result</returns>
+        [HttpPost]
+        public ActionResult _AjaxUpdateFeedback(FeedbackViewModel feedback)
+        {
+            if (_unitOfWork.Feedbacks.Create(feedback))
+            {
+                _unitOfWork.Complete();
+                return Json(
+                    new
+                    {
+                        type = "success",
+                        message = "Feedback created."
+                    });
+            }
+
+            return Json(
+                new
+                {
+                    type = "error", //or error
+                    message = "Cannot update feedback. Please try again later."
+                });
         }
 
     }

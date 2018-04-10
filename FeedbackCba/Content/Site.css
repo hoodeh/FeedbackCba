@@ -41,6 +41,19 @@ textarea {
     display:inline-block;
 }
 
+#feedback.menu {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+}
+
+#feedback-header {
+    padding: 10px;
+}
+
+#feedback-header:hover {
+    cursor: pointer;
+}
 
 /* Override Bootstrap*/
 
