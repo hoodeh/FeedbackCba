@@ -18,7 +18,8 @@ namespace FeedbackCbaTest.Controllers
         private string _pageUrl = "test.com";
         private string _customerId = "dbb2db69-917f-4989-90a6-48ec7562ee39";
 
-        public HomeControllerTests()
+        [TestInitialize]
+        public void TestInitialize()
         {
             var mockUnitOfWork = new Mock<IUnitOfWork>();
             _mockCustomerRepository = new Mock<ICustomerReporitory>();
@@ -47,12 +48,11 @@ namespace FeedbackCbaTest.Controllers
         public void Feedback_CustomerWithDisabledAccount_ShouldReturnExpiredPage()
         {
             var customer = new Customer {Id = new Guid(_customerId), IsEnabled = false};
-
             _mockCustomerRepository.Setup(c => c.GetCustomer(_customerId)).Returns(customer);
 
-            var result = _homeController.Feedback(_customerId, _pageUrl);
+            var result = _homeController.Feedback(_customerId, _pageUrl) as ViewResult;
 
-            result.Should().BeOfType<ViewResult>();
+            result.ViewName.Should().BeSameAs("ExpiredPackage");
         }
 
         [TestMethod]
@@ -70,6 +70,24 @@ namespace FeedbackCbaTest.Controllers
             var result = _homeController.Feedback(_customerId, _pageUrl) as ViewResult;
 
             result.ViewName.Should().BeSameAs("ExpiredPackage");
+        }
+
+        [TestMethod]
+        public void Feedback_CustomerWithInvalidDomain_ShouldThrowUnauthorizedException()
+        {
+            var customer = new Customer
+            {
+                Id = new Guid(_customerId),
+                IsEnabled = true,
+                ExpireDate = DateTime.Now.AddYears(1),
+                ValidDomains = "cba.com.au"
+            };
+
+            _mockCustomerRepository.Setup(c => c.GetCustomer(_customerId)).Returns(customer);
+
+            var result = _homeController.Feedback(_customerId, _pageUrl);
+
+            result.Should().BeOfType<UnauthorizedAccessException>();
         }
         
     }

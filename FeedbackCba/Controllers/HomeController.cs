@@ -53,9 +53,17 @@ namespace FeedbackCba.Controllers
                 return View("ExpiredPackage");
             }
 
-            if(!customer.ValidDomains.Split(';').Any(valiDomain => pageUrl.ToLower().Contains(valiDomain.ToLower())))
+            if(!string.IsNullOrEmpty(customer.ValidDomains) && 
+                !customer.ValidDomains.Split(';').Any(valiDomain => pageUrl.ToLower().Contains(valiDomain.ToLower())))
             {
                 throw new UnauthorizedAccessException("Unauthorized web address");
+            }
+
+            // Check if more than 180 days from last feedback
+            var recentFeedback = _unitOfWork.Feedbacks.GetFeedback(customerId, pageUrl, isMainPage, userId);
+            if (recentFeedback != null && recentFeedback.SubmitDate.AddDays(180) > DateTime.Now)
+            {
+                return new EmptyResult();
             }
 
             return View(new FeedbackViewModel
