@@ -1,11 +1,11 @@
 ﻿using FeedbackCba.Core.Models;
-using FeedbackCba.Core.ViewModel;
+using FeedbackCba.Dtos;
 
 namespace FeedbackCba.Core.Repositories
 {
     public interface IFeedbackRepository
     {
         Feedback GetFeedback(string customerId, string pageUrl, bool isMainPage, string userId = "");
-        bool Create(FeedbackViewModel feedback);
+        bool Create(string customerId, FeedbackDto feedback);
     }
 }

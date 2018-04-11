@@ -1,6 +1,6 @@
 ﻿using FeedbackCba.Core.Models;
 using FeedbackCba.Core.Repositories;
-using FeedbackCba.Core.ViewModel;
+using FeedbackCba.Dtos;
 using System;
 using System.Linq;
 
@@ -31,13 +31,13 @@ namespace FeedbackCba.Persistence.Repositories
             }
         }
 
-        public bool Create(FeedbackViewModel feedback)
+        public bool Create(string customerId, FeedbackDto feedback)
         {
             try
             {
                 _context.Feedbacks.Add(new Feedback
                 {
-                    CustomerId = new Guid(feedback.CustomerId),
+                    CustomerId = new Guid(customerId),
                     UserId = feedback.UserId ?? "",
                     Rate = feedback.Rate,
                     IsMainPage = feedback.IsMainPage,

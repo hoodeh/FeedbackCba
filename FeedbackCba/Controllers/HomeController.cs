@@ -34,6 +34,15 @@ namespace FeedbackCba.Controllers
             return View();
         }
 
+        [HttpOptions]
+        [ActionName("Feedback")]
+        public ActionResult FeedbackOptions(string customerId, string pageUrl, bool isMainPage = true, string userId = "")
+        {
+            Response.AddHeader("Access-Control-Allow-Origin", "*");
+            Response.AddHeader("Access-Control-Allow-Headers", "Content-Type");
+            return new HttpStatusCodeResult(200);
+        }
+
         [HttpGet]
         public ActionResult Feedback(string customerId, string pageUrl, bool isMainPage = true, string userId = "")
         {
@@ -48,7 +57,7 @@ namespace FeedbackCba.Controllers
                 return HttpNotFound();
             }
 
-            if (!customer.IsEnabled || customer.ExpireDate < DateTime.Now)
+            if (!customer.IsValid())
             {
                 return View("ExpiredPackage");
             }
@@ -66,6 +75,8 @@ namespace FeedbackCba.Controllers
                 return new EmptyResult();
             }
 
+            Response.AddHeader("Access-Control-Allow-Origin", "*");
+
             return View(new FeedbackViewModel
             {
                 CustomerId = customerId,
@@ -78,33 +89,5 @@ namespace FeedbackCba.Controllers
                 BgColor = customer.BgColor
             });
         }
-
-        /// <summary>
-        /// POST : /Home/_AjaxUpdateFeedback
-        /// <para>Create feedback.</para>
-        /// </summary>
-        /// <returns>Json object with result</returns>
-        [HttpPost]
-        public ActionResult _AjaxUpdateFeedback(FeedbackViewModel feedback)
-        {
-            if (_unitOfWork.Feedbacks.Create(feedback))
-            {
-                _unitOfWork.Complete();
-                return Json(
-                    new
-                    {
-                        type = "success",
-                        message = "Feedback created."
-                    });
-            }
-
-            return Json(
-                new
-                {
-                    type = "error", //or error
-                    message = "Cannot update feedback. Please try again later."
-                });
-        }
-
     }
 }

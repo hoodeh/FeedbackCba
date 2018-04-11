@@ -28,5 +28,10 @@ namespace FeedbackCba.Core.Models
         public DateTime ExpireDate { get; set; }
         public bool IsEnabled { get; set; }
         public ICollection<Question> Questions { get; set; }
+
+        public bool IsValid()
+        {
+            return IsEnabled && ExpireDate >= DateTime.Now;
+        }
     }
 }

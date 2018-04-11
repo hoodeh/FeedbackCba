@@ -5,7 +5,7 @@ VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeedbackCba", "FeedbackCba\FeedbackCba.csproj", "{97C5921F-4BB9-4B5B-94B7-EFC7CAA6022B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeedbackCbaTest", "FeedbackCbaTest\FeedbackCbaTest.csproj", "{9705276A-B795-42EA-A2AC-897DABCD41C2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeedbackCba.Test", "FeedbackCbaTest\FeedbackCba.Test.csproj", "{9705276A-B795-42EA-A2AC-897DABCD41C2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
