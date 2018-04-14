@@ -1,8 +1,8 @@
 ﻿using FeedbackCba.Core.Models;
 using FeedbackCba.Core.Repositories;
-using FeedbackCba.Dtos;
 using System;
 using System.Linq;
+using FeedbackCba.Core.Dtos;
 
 namespace FeedbackCba.Persistence.Repositories
 {
@@ -26,7 +26,11 @@ namespace FeedbackCba.Persistence.Repositories
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                ex.Data.Add("customerId", customerId);
+                ex.Data.Add("pageUrl", pageUrl);
+                ex.Data.Add("isMainPage", isMainPage);
+                ex.Data.Add("userId", userId);
+                Console.WriteLine("FeedbackRepository.GetFeedback" + ex);
                 return new Feedback();
             }
         }
@@ -51,7 +55,8 @@ namespace FeedbackCba.Persistence.Repositories
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                ex.Data.Add("customerId", customerId);
+                Console.WriteLine("FeedbackRepository.Create" + ex);
                 return false;
             }
         }

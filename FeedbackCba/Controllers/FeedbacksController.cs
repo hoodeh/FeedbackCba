@@ -6,7 +6,7 @@ using System.Web.Cors;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using FeedbackCba.Core;
-using FeedbackCba.Dtos;
+using FeedbackCba.Core.Dtos;
 
 namespace FeedbackCba.Controllers
 {
@@ -26,7 +26,10 @@ namespace FeedbackCba.Controllers
             var customer = _unitOfWork.Customers.GetCustomer(customerId);
             if (customer.IsValid())
             {
-                _unitOfWork.Feedbacks.Create(customerId, feedBack);
+                if (_unitOfWork.Feedbacks.Create(customerId, feedBack))
+                {
+                    _unitOfWork.Complete();
+                }
             }
 
             var response = Request.CreateResponse(HttpStatusCode.OK);

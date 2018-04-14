@@ -1,4 +1,4 @@
-﻿namespace FeedbackCba.Dtos
+﻿namespace FeedbackCba.Core.Dtos
 {
     public class FeedbackDto
     {

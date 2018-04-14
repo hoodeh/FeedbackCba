@@ -28,7 +28,7 @@ namespace FeedbackCba.Persistence.Repositories
             catch (Exception ex)
             {
                 ex.Data.Add("customerId", customerId);
-                Console.WriteLine("FeedbackCba.Persistence.Repositories.GetCustomer" + ex);
+                Console.WriteLine("CustomerReporitory.GetCustomer" + ex);
                 return null;
             }
         }
@@ -37,13 +37,12 @@ namespace FeedbackCba.Persistence.Repositories
         {
             try
             {
-                var customer = GetCustomer(customerId);
-                return customer != null && customer.IsEnabled && customer.ExpireDate > DateTime.Now;
+                return _context.Customers.Any(c => c.Id == new Guid(customerId) && c.IsEnabled && c.ExpireDate > DateTime.Now);
             }
             catch (Exception ex)
             {
                 ex.Data.Add("customerId", customerId);
-                Console.WriteLine("FeedbackCba.Persistence.Repositories.IsValidCustomer" + ex);
+                Console.WriteLine("CustomerReporitory.IsValidCustomer" + ex);
                 return false;
             }
         }
@@ -62,7 +61,7 @@ namespace FeedbackCba.Persistence.Repositories
             catch (Exception ex)
             {
                 ex.Data.Add("customerId", customerId);
-                Console.WriteLine("FeedbackCba.Persistence.Repositories.GetValidDomains" + ex);
+                Console.WriteLine("CustomerReporitory.GetValidDomains" + ex);
                 return null;
             }
         }

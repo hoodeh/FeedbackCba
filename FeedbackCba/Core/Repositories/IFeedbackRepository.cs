@@ -1,5 +1,5 @@
-﻿using FeedbackCba.Core.Models;
-using FeedbackCba.Dtos;
+﻿using FeedbackCba.Core.Dtos;
+using FeedbackCba.Core.Models;
 
 namespace FeedbackCba.Core.Repositories
 {
