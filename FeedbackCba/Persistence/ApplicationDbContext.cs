@@ -4,20 +4,14 @@ using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace FeedbackCba.Persistence
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : DbContext, IApplicationDbContext
     {
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Feedback> Feedbacks { get; set; }
         public DbSet<Question> Questions { get; set; }
 
-        public ApplicationDbContext()
-            : base("FeedbackCbaConn")
+        public ApplicationDbContext() : base("FeedbackCbaConn")
         {
-        }
-
-        public static ApplicationDbContext Create()
-        {
-            return new ApplicationDbContext();
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

@@ -52,7 +52,7 @@ namespace FeedbackCba.Migrations
             //context.Customers.Add(new Customer
             //{
             //    Id = new Guid("bdc057dd-6439-447f-a777-a5aef8db40f0"),
-            //    Name = "CommBank Test",
+            //    Name = "CommBank WebApiGlobalExceptionHandler",
             //    Statement = "Thank you for using this service. We would appreciate your feedback by answering this question.",
             //    AppLevelQuestion = "How do you like this site?",
             //    PageLevelQuestion = "How helpful is this page?",

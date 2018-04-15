@@ -171,6 +171,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Persistence\IApplicationDbContext.cs" />
     <Compile Include="Persistence\Migrations\201804081040401_intial.cs" />
     <Compile Include="Persistence\Migrations\201804081040401_intial.Designer.cs">
       <DependentUpon>201804081040401_intial.cs</DependentUpon>
@@ -251,7 +252,7 @@
     <Content Include="Views\Home\_Feedback.cshtml" />
     <Content Include="Views\Home\Feedback.cshtml" />
     <Content Include="Views\Home\ExpiredPackage.cshtml" />
-  </ItemGroup>
+    </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
   </ItemGroup>

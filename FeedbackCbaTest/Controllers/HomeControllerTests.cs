@@ -47,7 +47,7 @@ namespace FeedbackCbaTest.Controllers
         [TestMethod]
         public void Feedback_CustomerWithDisabledAccount_ShouldReturnExpiredPage()
         {
-            var customer = new Customer {Id = new Guid(_customerId), IsEnabled = false};
+            var customer = new Customer { Id = new Guid(_customerId), IsEnabled = false };
             _mockCustomerRepository.Setup(c => c.GetCustomer(_customerId)).Returns(customer);
 
             var result = _homeController.Feedback(_customerId, _pageUrl) as ViewResult;
@@ -80,15 +80,15 @@ namespace FeedbackCbaTest.Controllers
                 Id = new Guid(_customerId),
                 IsEnabled = true,
                 ExpireDate = DateTime.Now.AddYears(1),
-                ValidDomains = "cba.com.au"
+                ValidDomains = "https://cba.com.au"
             };
 
             _mockCustomerRepository.Setup(c => c.GetCustomer(_customerId)).Returns(customer);
 
-            var result = _homeController.Feedback(_customerId, _pageUrl);
+            var result = (Action)(()=> _homeController.Feedback(_customerId, _pageUrl));
 
-            result.Should().BeOfType<UnauthorizedAccessException>();
+            result.Should().Throw<UnauthorizedAccessException>();
         }
-        
+
     }
 }

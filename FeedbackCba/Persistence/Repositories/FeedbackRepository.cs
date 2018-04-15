@@ -8,9 +8,9 @@ namespace FeedbackCba.Persistence.Repositories
 {
     public class FeedbackRepository : IFeedbackRepository
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IApplicationDbContext _context;
 
-        public FeedbackRepository(ApplicationDbContext context)
+        public FeedbackRepository(IApplicationDbContext context)
         {
             _context = context;
         }

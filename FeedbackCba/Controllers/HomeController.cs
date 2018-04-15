@@ -2,6 +2,7 @@
 using FeedbackCba.Core.ViewModel;
 using System;
 using System.Linq;
+using System.Net;
 using System.Web.Mvc;
 
 namespace FeedbackCba.Controllers
@@ -48,7 +49,7 @@ namespace FeedbackCba.Controllers
         {
             if (string.IsNullOrEmpty(customerId))
             {
-                return HttpNotFound();
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "You broke the Internet!");
             }
 
             var customer = _unitOfWork.Customers.GetCustomer(customerId);

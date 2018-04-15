@@ -9,9 +9,9 @@ namespace FeedbackCba.Persistence.Repositories
 {
     public class CustomerReporitory : ICustomerReporitory
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IApplicationDbContext _context;
 
-        public CustomerReporitory(ApplicationDbContext context)
+        public CustomerReporitory(IApplicationDbContext context)
         {
             _context = context;
         }
