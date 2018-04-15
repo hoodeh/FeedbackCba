@@ -1,5 +1,4 @@
-﻿using FeedbackCba.Core.ViewModel;
-using System.Linq;
+﻿using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Cors;
@@ -8,7 +7,7 @@ using System.Web.Http.Cors;
 using FeedbackCba.Core;
 using FeedbackCba.Core.Dtos;
 
-namespace FeedbackCba.Controllers
+namespace FeedbackCba.Controllers.Api
 {
     public class FeedbacksController : ApiController
     {
@@ -42,8 +41,8 @@ namespace FeedbackCba.Controllers
         public IHttpActionResult Options(string customerId, FeedbackDto feedBack)
         {
             var hostName = System.Web.HttpContext.Current.Request.Headers["Origin"].ToLower();
-            var validDomains = "http://domain1.com;http://domain2.com"; //load from Db using customerId
-            var isValidHost = validDomains.Split(';').Any(p => p.ToLower().Equals(hostName));
+            var validDomains = _unitOfWork.Customers.GetValidDomains(customerId);// "http://domain1.com;http://domain2.com"; //load from Db using customerId
+            var isValidHost = validDomains.Any(p => p.ToLower().Equals(hostName));
 
             var response = Request.CreateResponse();
             if (isValidHost)
@@ -52,11 +51,6 @@ namespace FeedbackCba.Controllers
             }
 
             return ResponseMessage(response);
-            
-            //return Ok();
-            //<add name="Access-Control-Allow-Origin" value="*" />
-            //    <add name="Access-Control-Allow-Headers" value="Content-Type" />
-
         }
     }
 }

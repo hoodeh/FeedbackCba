@@ -35,14 +35,14 @@ namespace FeedbackCba.Controllers
             return View();
         }
 
-        [HttpOptions]
-        [ActionName("Feedback")]
-        public ActionResult FeedbackOptions(string customerId, string pageUrl, bool isMainPage = true, string userId = "")
-        {
-            Response.AddHeader("Access-Control-Allow-Origin", "*");
-            Response.AddHeader("Access-Control-Allow-Headers", "Content-Type");
-            return new HttpStatusCodeResult(200);
-        }
+        //[HttpOptions]
+        //[ActionName("Feedback")]
+        //public ActionResult FeedbackOptions(string customerId, string pageUrl, bool isMainPage = true, string userId = "")
+        //{
+        //    Response.AddHeader("Access-Control-Allow-Origin", "*");
+        //    Response.AddHeader("Access-Control-Allow-Headers", "Content-Type");
+        //    return new HttpStatusCodeResult(200);
+        //}
 
         [HttpGet]
         public ActionResult Feedback(string customerId, string pageUrl, bool isMainPage = true, string userId = "")

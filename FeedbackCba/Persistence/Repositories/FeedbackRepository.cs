@@ -1,8 +1,8 @@
-﻿using FeedbackCba.Core.Models;
+﻿using FeedbackCba.Core.Dtos;
+using FeedbackCba.Core.Models;
 using FeedbackCba.Core.Repositories;
 using System;
 using System.Linq;
-using FeedbackCba.Core.Dtos;
 
 namespace FeedbackCba.Persistence.Repositories
 {
@@ -20,7 +20,10 @@ namespace FeedbackCba.Persistence.Repositories
             try
             {
                 return _context.Feedbacks
-                    .Where(f => f.CustomerId == new Guid(customerId) && f.PageUrl == pageUrl && f.IsMainPage == isMainPage && (f.UserId ?? "") == userId)
+                    .Where(f => f.CustomerId == new Guid(customerId) 
+                                && f.PageUrl == pageUrl 
+                                && f.IsMainPage == isMainPage 
+                                && (f.UserId ?? "") == userId)
                     .OrderByDescending(f => f.SubmitDate)
                     .FirstOrDefault();
             }

@@ -15,7 +15,7 @@ namespace FeedbackCbaTest.Controllers
     {
         private HomeController _homeController;
         private Mock<ICustomerReporitory> _mockCustomerRepository;
-        private string _pageUrl = "test.com";
+        private string _pageUrl = "https://cba.com.au";
         private string _customerId = "dbb2db69-917f-4989-90a6-48ec7562ee39";
 
         [TestInitialize]
@@ -52,7 +52,7 @@ namespace FeedbackCbaTest.Controllers
 
             var result = _homeController.Feedback(_customerId, _pageUrl) as ViewResult;
 
-            result.ViewName.Should().BeSameAs("ExpiredPackage");
+            result.ViewName.Should().Be("ExpiredPackage");
         }
 
         [TestMethod]
@@ -79,8 +79,8 @@ namespace FeedbackCbaTest.Controllers
             {
                 Id = new Guid(_customerId),
                 IsEnabled = true,
-                ExpireDate = DateTime.Now.AddYears(1),
-                ValidDomains = "https://cba.com.au"
+                ExpireDate = DateTime.Now.AddDays(1),
+                ValidDomains = _pageUrl + "-"
             };
 
             _mockCustomerRepository.Setup(c => c.GetCustomer(_customerId)).Returns(customer);

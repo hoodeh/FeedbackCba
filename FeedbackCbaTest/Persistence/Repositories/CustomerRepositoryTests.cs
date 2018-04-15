@@ -7,7 +7,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 using System.Data.Entity;
-using System.Linq;
 
 namespace FeedbackCbaTest.Persistence.Repositories
 {
@@ -48,6 +47,17 @@ namespace FeedbackCbaTest.Persistence.Repositories
             var result = _repoitory.IsValidCustomer(_customerId);
 
             result.Should().BeFalse();
+        }
+
+        [TestMethod]
+        public void GetCustomer_ValidRequest_ShouldReturnCustomer()
+        {
+            var customer = new Customer { Id = new Guid(_customerId), IsEnabled = true, ExpireDate = DateTime.Now.AddDays(1) };
+            _mockCustomers.Add(customer);
+
+            var result = _repoitory.GetCustomer(_customerId);
+
+            result.Should().BeOfType<Customer>();
         }
 
         [TestMethod]

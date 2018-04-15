@@ -1,4 +1,3 @@
-
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(FeedbackCba.App_Start.NinjectWebCommon), "Start")]
 [assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(FeedbackCba.App_Start.NinjectWebCommon), "Stop")]
 
@@ -47,9 +46,9 @@ namespace FeedbackCba.App_Start
 
                 RegisterServices(kernel);
 
-                kernel.Bind(x =>
+                kernel.Bind(k =>
                 {
-                    x.FromThisAssembly()
+                    k.FromThisAssembly()
                         .SelectAllClasses()
                         .BindDefaultInterface();
                 });
