@@ -1,4 +1,5 @@
-﻿using System.Web.Http;
+﻿using FeedbackCba.Handler;
+using System.Web.Http;
 
 namespace FeedbackCba
 {
@@ -11,7 +12,7 @@ namespace FeedbackCba
             //config.SuppressDefaultHostAuthentication();
             //config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
             config.EnableCors();
-
+            config.Filters.Add(new WebApiGlobalExceptionHandler());
             // Web API routes
             config.MapHttpAttributeRoutes();
 
