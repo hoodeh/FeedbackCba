@@ -3,17 +3,32 @@
 @{
     Layout = "";
 }
+<link href="http://localhost:59955/Content/bootstrap.css" rel="stylesheet" />
+<link href="http://localhost:59955/Content/Site.css" rel="stylesheet" />
+@*<script id="appJs"></script>*@
+<script type="text/javascript">
+    var script = document.createElement('script');
 
-<script src="https://code.jquery.com/jquery-3.3.1.min.js" ></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
-<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
-<script src="http://localhost:59955/Scripts/custom/app.js"></script>
+    script.addEventListener('load', function () {
+        var feedback = new Feedback();
+        feedback.init({
+            customerId:"@Model.CustomerId",
+            userId:"@Model.UserId",
+            pageUrl:"@Model.PageUrl",
+            isMainPage: "@Model.IsMainPage"
+        });
+    });
+    script.src = "http://localhost:59955/Scripts/custom/app.js";
+    document.head.appendChild(script);
+</script>
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet" href="http://localhost:59955/Content/Site.css">
 
 <style>
-    
+    .hidden {
+        display: none;
+    }
+
     #feedback.menu {
         position: fixed;
         bottom: 0;
@@ -41,18 +56,15 @@
        new { id = "form-update-feedback", name = "form-update-feedback" });
 }*@
 <form id="form-update-feedback">
-    @Html.HiddenFor(m => m.CustomerId)
-    @Html.HiddenFor(m => m.UserId)
-    @Html.HiddenFor(m => m.IsMainPage)
-    @Html.HiddenFor(m => m.PageUrl)
-    @Html.HiddenFor(m => m.Rate)
-    @Html.HiddenFor(m => m.QuestionId)
+    <input id="rate" name="rate" type="hidden" />
+    <input id="question-id" name="question-id" type="hidden" />
+
     <div id="feedback" class="menu">
-        <div id="feedback-header" style="background-color:@Model.BgColor;">
+        <div id="feedback-header" style="background-color: @Model.BgColor;">
             FEEDBACK
         </div>
         <div id="feedback-form" class="hidden">
-            @Html.Label(Model.MainQuestion)
+            <span>@Model.MainQuestion</span>
             <div id="star-rating">
                 @{
                     for (var i = 1; i <= 10; i++)
@@ -71,19 +83,10 @@
                             </label>
                         }
                     }
-                    @Html.TextAreaFor(m => m.UserReply, new { @class = "form-control" })
+                    <textarea class="form-control" id="user-reply"></textarea>
                 </div>
                 <button id="feedback-submit-btn" type="button" class="btn btn-default btn-sm">Submit</button>
             </div>
         </div>
     </div>
 </form>
-@*@{
-    Html.EndForm();
-}*@
-
-<script type="text/javascript">
-    $(function() {
-        Feedback.init();
-    });
-</script>

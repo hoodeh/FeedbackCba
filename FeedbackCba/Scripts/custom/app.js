@@ -1,45 +1,47 @@
 ﻿var Feedback = function() {
-    function init() {
+    this.init = function(options) {
+        this.options = options;
+        var me = this;
         $("#follow-up-question").hide();
 
         $("#feedback-submit-btn").click(function(e) {
             if ($("#form-update-feedback").data('submitting') === true) {
-                e.abort();
+                //e.abort();
                 return false;
             } else {
-                $("#form-update-feedback").data('submitting', true);
+                //$("#form-update-feedback").data('submitting', true);
             }
 
             $.ajax({
                 type: "POST",
-                url: "http://localhost:59955/Home/_AjaxUpdateFeedback",
-                data: getFormData,
+                url: "http://localhost:59955/api/customers/" + options.customerId + "/feedbacks",
+                data: JSON.stringify(me.getFormData()),
+                contentType: "application/json",
                 success: updateFeedbackOnSuccess,
                 error: updateFeedbackOnFailure,
                 done: updateFeedbackOnComplete
             });
         });
 
-        $("#feedback-header").on("click", function () {
-            $("#feedback-form").toggleClass("hidden");
-        });
+        $("#feedback-header").on("click",
+            function() {
+                $("#feedback-form").toggleClass("hidden");
+            });
 
         $("#star-rating").on("click", ".rate-star", function (e) {
             var span = $(e.target);
-            var rate = parseInt(span.attr("data-val"));
-            $("#Rate").val(rate); // set model value
-            showQuestion(rate);
+                var rate = parseInt(span.attr("data-val"));
+                $("#rate").val(rate);
+                showQuestion(rate);
         }).on("mouseover", ".rate-star", function (e) {
             var span = $(e.target);
-            var rate = parseInt(span.attr("data-val"));
-            setStarRate(rate);
+                var rate = parseInt(span.attr("data-val"));
+                setStarRate(rate);
         }).on("mouseout", ".rate-star", function () {
-            var rate = parseInt($("#Rate").val());
-            setStarRate(rate);
-        });
-
-        //setStarRate(parseInt($("#Rate").val()));
-    }
+            var rate = parseInt($("#rate").val());
+                setStarRate(rate);
+            });
+    };
 
     function showQuestion(rate) {
         $("#follow-up-question").show();
@@ -57,7 +59,7 @@
                 $(this).hide();
             } else {
                 $(this).show();
-                $("#QuestionId").val(parseInt($(this).attr("data-id")));
+                $("#question-id").val(parseInt($(this).attr("data-id")));
             }
         });
     }
@@ -72,15 +74,14 @@
         });
     }
 
-    function getFormData() {
+    this.getFormData = function() {
         return {
-            customerId: $("#CustomerId").val(),
-            userId: $("#UserId").val(),
-            isMainPage: $("#IsMainPage").val(),
-            pageUrl: $("#PageUrl").val(),
-            rate: $("#Rate").val(),
-            questionId: $("#QuestionId").val(),
-            userReply: $("#UserReply").val()
+            userId: this.options.userId,
+            isMainPage: this.options.isMainPage,
+            pageUrl: this.options.pageUrl,
+            rate: $("#rate").val(),
+            questionId: $("#question-id").val(),
+            userReply: $("#user-reply").val()
         };
     }
 
@@ -100,7 +101,4 @@
         console.log("error on calling ajax");
     }
 
-    return {
-        init: init
-    }
-}();
+};
