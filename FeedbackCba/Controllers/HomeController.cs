@@ -1,19 +1,23 @@
-﻿using FeedbackCba.Core;
+﻿using FeedbackCba.Controllers.Api;
+using FeedbackCba.Core;
 using FeedbackCba.Core.ViewModel;
-using System;
-using System.Linq;
 using System.Net;
 using System.Web.Mvc;
+using FeedbackCba.Persistence;
 
 namespace FeedbackCba.Controllers
 {
     public class HomeController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IFeedbackRecorder _feedbackRecorder;
+        private readonly ICustomerDomainValidator _domainValidator;
 
-        public HomeController(IUnitOfWork unitOfWork)
+        public HomeController(IUnitOfWork unitOfWork, IFeedbackRecorder feedbackRecorder, ICustomerDomainValidator domainValidator)
         {
             _unitOfWork = unitOfWork;
+            _feedbackRecorder = feedbackRecorder;
+            _domainValidator = domainValidator;
         }
 
         public ActionResult Index()
@@ -21,41 +25,18 @@ namespace FeedbackCba.Controllers
             return View();
         }
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
-
-        //[HttpOptions]
-        //[ActionName("Feedback")]
-        //public ActionResult FeedbackOptions(string customerId, string pageUrl, bool isMainPage = true, string userId = "")
-        //{
-        //    Response.AddHeader("Access-Control-Allow-Origin", "*");
-        //    Response.AddHeader("Access-Control-Allow-Headers", "Content-Type");
-        //    return new HttpStatusCodeResult(200);
-        //}
-
         [HttpGet]
         public ActionResult Feedback(string customerId, string pageUrl, bool isMainPage = true, string userId = "")
         {
             if (string.IsNullOrEmpty(customerId))
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "You broke the Internet!");
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "You must provide CustomerId");
             }
 
             var customer = _unitOfWork.Customers.GetCustomer(customerId);
             if (customer == null)
             {
-                return HttpNotFound();
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Customer not exist");
             }
 
             if (!customer.IsValid())
@@ -63,20 +44,22 @@ namespace FeedbackCba.Controllers
                 return View("ExpiredPackage");
             }
 
-            if(!string.IsNullOrEmpty(customer.ValidDomains) && 
-                !customer.ValidDomains.Split(';').Any(valiDomain => pageUrl.ToLower().Contains(valiDomain.ToLower())))
+            string hostName;
+            if (_domainValidator.IsValidHostName(customerId, out hostName))
             {
-                throw new UnauthorizedAccessException("Unauthorized web address");
+                Response.AddHeader("Access-Control-Allow-Origin", hostName);
+                Response.AddHeader("Access-Control-Allow-Credentials", "true");
+            }
+            else
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Unauthorized access");
             }
 
             // Check if more than 180 days from last feedback
-            var recentFeedback = _unitOfWork.Feedbacks.GetFeedback(customerId, pageUrl, isMainPage, userId);
-            if (recentFeedback != null && recentFeedback.SubmitDate.AddDays(180) > DateTime.Now)
+            if (!_feedbackRecorder.CanProvideFeedback(customerId, pageUrl))
             {
                 return new EmptyResult();
             }
-
-            Response.AddHeader("Access-Control-Allow-Origin", "*");
 
             return View(new FeedbackViewModel
             {

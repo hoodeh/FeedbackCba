@@ -2,10 +2,12 @@
 using FeedbackCba.Core;
 using FeedbackCba.Core.Models;
 using FeedbackCba.Core.Repositories;
+using FeedbackCba.Persistence;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
+using System.Web.Http.Results;
 using System.Web.Mvc;
 
 namespace FeedbackCbaTest.Controllers
@@ -15,6 +17,8 @@ namespace FeedbackCbaTest.Controllers
     {
         private HomeController _homeController;
         private Mock<ICustomerReporitory> _mockCustomerRepository;
+        private Mock<ICustomerDomainValidator> _mockDomainValidator;
+
         private string _pageUrl = "https://cba.com.au";
         private string _customerId = "dbb2db69-917f-4989-90a6-48ec7562ee39";
 
@@ -25,7 +29,9 @@ namespace FeedbackCbaTest.Controllers
             _mockCustomerRepository = new Mock<ICustomerReporitory>();
             mockUnitOfWork.SetupGet(u => u.Customers).Returns(_mockCustomerRepository.Object);
 
-            _homeController = new HomeController(mockUnitOfWork.Object);
+            _mockDomainValidator = new Mock<ICustomerDomainValidator>();
+            var mockFeedbackRecorder = new Mock<IFeedbackRecorder>();
+            _homeController = new HomeController(mockUnitOfWork.Object, mockFeedbackRecorder.Object, _mockDomainValidator.Object);
         }
 
         [TestMethod]
@@ -33,7 +39,7 @@ namespace FeedbackCbaTest.Controllers
         {
             var result = _homeController.Feedback("", _pageUrl);
 
-            result.Should().BeOfType<HttpNotFoundResult>();
+            result.Should().BeOfType<BadRequestResult>();
         }
 
         [TestMethod]
@@ -41,7 +47,7 @@ namespace FeedbackCbaTest.Controllers
         {
             var result = _homeController.Feedback(_customerId, _pageUrl);
 
-            result.Should().BeOfType<HttpNotFoundResult>();
+            result.Should().BeOfType<BadRequestResult>();
         }
 
         [TestMethod]
@@ -69,7 +75,7 @@ namespace FeedbackCbaTest.Controllers
 
             var result = _homeController.Feedback(_customerId, _pageUrl) as ViewResult;
 
-            result.ViewName.Should().BeSameAs("ExpiredPackage");
+            result.ViewName.Should().Be("ExpiredPackage");
         }
 
         [TestMethod]
@@ -84,10 +90,12 @@ namespace FeedbackCbaTest.Controllers
             };
 
             _mockCustomerRepository.Setup(c => c.GetCustomer(_customerId)).Returns(customer);
+            var hostname = string.Empty;
+            _mockDomainValidator.Setup(d => d.IsValidHostName(_customerId, out hostname)).Returns(false);
 
-            var result = (Action)(()=> _homeController.Feedback(_customerId, _pageUrl));
+            var result = _homeController.Feedback(_customerId, _pageUrl);
 
-            result.Should().Throw<UnauthorizedAccessException>();
+            result.Should().BeOfType<BadRequestResult>();
         }
 
     }

@@ -3,9 +3,9 @@
 @{
     Layout = "";
 }
-<link href="http://localhost:59955/Content/bootstrap.css" rel="stylesheet" />
-<link href="http://localhost:59955/Content/Site.css" rel="stylesheet" />
-@*<script id="appJs"></script>*@
+<link href="@Url.GetAbsoluteUrl("~/Content/bootstrap.css")" rel="stylesheet" />
+<link href="@Url.GetAbsoluteUrl("~/Content/Site.css")" rel="stylesheet" />
+
 <script type="text/javascript">
     var script = document.createElement('script');
 
@@ -15,14 +15,13 @@
             customerId:"@Model.CustomerId",
             userId:"@Model.UserId",
             pageUrl:"@Model.PageUrl",
-            isMainPage: "@Model.IsMainPage"
+            isMainPage: "@Model.IsMainPage",
+            apiUrl: "@Url.GetAbsoluteUrl("~/Api/")"
         });
     });
-    script.src = "http://localhost:59955/Scripts/custom/app.js";
+    script.src = "@Url.GetAbsoluteUrl("~/Scripts/custom/app.js")";
     document.head.appendChild(script);
 </script>
-
-<link rel="stylesheet" href="http://localhost:59955/Content/Site.css">
 
 <style>
     .hidden {
@@ -33,35 +32,27 @@
         position: fixed;
         bottom: 0;
         right: 0;
+        margin-right: 30px;
+        width: 310px;
+        max-width: 310px;
     }
 
     #feedback-header {
-        padding: 10px;
+        padding: 7px;
     }
 
     #feedback-header:hover {
         cursor: pointer;
     }
 </style>
-@*@{ Ajax.BeginForm("", "",
-       new AjaxOptions
-       {
-           HttpMethod = "POST",
-           Url = "http://localhost:59955/Home/_AjaxUpdateFeedback",
-           OnSuccess = "updateFeedbackOnSuccess",
-           OnBegin = "updateFeedbackOnBegin",
-           OnComplete = "updateFeedbackOnComplete",
-           OnFailure = "updateFeedbackOnFailure",
-       },
-       new { id = "form-update-feedback", name = "form-update-feedback" });
-}*@
+
 <form id="form-update-feedback">
     <input id="rate" name="rate" type="hidden" />
     <input id="question-id" name="question-id" type="hidden" />
 
     <div id="feedback" class="menu">
         <div id="feedback-header" style="background-color: @Model.BgColor;">
-            FEEDBACK
+            <b>FEEDBACK</b>
         </div>
         <div id="feedback-form" class="hidden">
             <span>@Model.MainQuestion</span>

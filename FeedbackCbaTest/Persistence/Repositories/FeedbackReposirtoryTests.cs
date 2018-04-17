@@ -1,4 +1,5 @@
-﻿using FeedbackCba.Core.Models;
+﻿using FeedbackCba.Core.Dtos;
+using FeedbackCba.Core.Models;
 using FeedbackCba.Persistence;
 using FeedbackCba.Persistence.Repositories;
 using FeedbackCbaTest.Extensions;
@@ -89,7 +90,7 @@ namespace FeedbackCbaTest.Persistence.Repositories
         }
 
         [TestMethod]
-        public void GetFeedback_ValidRequest_ShouldReturnGig()
+        public void GetFeedback_ValidRequest_ShouldReturnFeedback()
         {
             var feedback = new Feedback
             {
@@ -105,6 +106,33 @@ namespace FeedbackCbaTest.Persistence.Repositories
             var result = _repoitory.GetFeedback(_customerId, _pageUrl, _isMainPage);
 
             result.Should().Be(feedback);
+        }
+
+        [TestMethod]
+        public void Create_ValidRequest_ShouldAddFeedback()
+        {
+            var feedback = new FeedbackDto
+            {
+                Rate = 8,
+                PageUrl = _pageUrl,
+                IsMainPage = _isMainPage,
+                QuestionId = 1
+            };
+
+            var result = _repoitory.Create(_customerId, feedback);
+
+            result.Should().Be(true);
+            _mockFeedbacks.Should().HaveCount(1);
+        }
+
+        [TestMethod]
+        public void Create_NullFeedbackDTO_ReturnFalse()
+        {
+            FeedbackDto feedbackDto = null;
+
+            var result = _repoitory.Create(_customerId, feedbackDto);
+
+            result.Should().Be(false);
         }
 
     }

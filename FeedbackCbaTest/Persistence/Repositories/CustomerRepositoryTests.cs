@@ -50,6 +50,14 @@ namespace FeedbackCbaTest.Persistence.Repositories
         }
 
         [TestMethod]
+        public void GetCustomer_InvalidCustomerId_ShouldReturnNull()
+        {
+            var result = _repoitory.GetCustomer(_customerId);
+
+            result.Should().BeNull();
+        }
+
+        [TestMethod]
         public void GetCustomer_ValidRequest_ShouldReturnCustomer()
         {
             var customer = new Customer { Id = new Guid(_customerId), IsEnabled = true, ExpireDate = DateTime.Now.AddDays(1) };

@@ -1,56 +1,82 @@
-﻿using System.Linq;
+﻿using FeedbackCba.Core;
+using FeedbackCba.Core.Dtos;
+using FeedbackCba.Persistence;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Web.Cors;
 using System.Web.Http;
 using System.Web.Http.Cors;
-using FeedbackCba.Core;
-using FeedbackCba.Core.Dtos;
 
 namespace FeedbackCba.Controllers.Api
 {
     public class FeedbacksController : ApiController
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IFeedbackRecorder _feedbackRecorder;
+        private readonly ICustomerDomainValidator _domainValidator;
 
-        public FeedbacksController(IUnitOfWork unitOfWork)
+
+        public FeedbacksController(IUnitOfWork unitOfWork, IFeedbackRecorder feedbackRecorder, ICustomerDomainValidator domainValidator)
         {
             _unitOfWork = unitOfWork;
+            _feedbackRecorder = feedbackRecorder;
+            _domainValidator = domainValidator;
         }
+
         // POST api/<controller>
         //[EnableCors(origins: "*", headers: "*", methods: "*")]
-        [Route("api/customers/{customerId}/feedbacks")]
+        [System.Web.Http.Route("api/customers/{customerId}/feedbacks")]
         public IHttpActionResult Post(string customerId, FeedbackDto feedBack)
         {
-            var customer = _unitOfWork.Customers.GetCustomer(customerId);
-            if (customer.IsValid())
+            if (!_feedbackRecorder.CanProvideFeedback(customerId, feedBack.PageUrl))
             {
-                if (_unitOfWork.Feedbacks.Create(customerId, feedBack))
-                {
-                    _unitOfWork.Complete();
-                }
+                return BadRequest();
+            }
+
+            var customer = _unitOfWork.Customers.GetCustomer(customerId);
+            if (customer == null || !customer.IsValid())
+            {
+                return NotFound();
+            }
+
+            if (_unitOfWork.Feedbacks.Create(customerId, feedBack))
+            {
+                _unitOfWork.Complete();
             }
 
             var response = Request.CreateResponse(HttpStatusCode.OK);
-            response.Content = new StringContent("");
-            response.WriteCorsHeaders(new CorsResult { AllowedOrigin = "*", AllowedHeaders = { "Content-Type" } });
+
+            _feedbackRecorder.RecordFeedback(customerId, feedBack.PageUrl);
+
+            response.Content = new StringContent("{\"type\":\"success\"}", Encoding.UTF8, "application/json");
+            
+            WriteCorsHeader(customerId, response);
             
             return ResponseMessage(response);
         }
 
         public IHttpActionResult Options(string customerId, FeedbackDto feedBack)
         {
-            var hostName = System.Web.HttpContext.Current.Request.Headers["Origin"].ToLower();
-            var validDomains = _unitOfWork.Customers.GetValidDomains(customerId);// "http://domain1.com;http://domain2.com"; //load from Db using customerId
-            var isValidHost = validDomains.Any(p => p.ToLower().Equals(hostName));
-
+            
             var response = Request.CreateResponse();
-            if (isValidHost)
-            {
-                response.WriteCorsHeaders(new CorsResult { AllowedOrigin = hostName, AllowedHeaders = { "Content-Type" } });
-            }
-
+            WriteCorsHeader(customerId, response);
             return ResponseMessage(response);
         }
+
+        private void WriteCorsHeader(string customerId, HttpResponseMessage response)
+        {
+            string hostName;
+            if (_domainValidator.IsValidHostName(customerId,out hostName))
+            {
+                response.WriteCorsHeaders(new CorsResult
+                {
+                    AllowedOrigin = hostName,
+                    AllowedHeaders = {"Content-Type"},
+                    SupportsCredentials = true
+                });
+            }
+        }
     }
+
 }

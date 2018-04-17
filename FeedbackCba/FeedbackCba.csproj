@@ -167,15 +167,21 @@
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Persistence\CustomerDomainValidator.cs" />
     <Compile Include="Controllers\Api\FeedbacksController.cs" />
+    <Compile Include="Core\IFeedbackRecorder.cs" />
     <Compile Include="Core\Dtos\FeedbackDto.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Core\ISystemClock.cs" />
     <Compile Include="Core\Models\Customer.cs" />
     <Compile Include="Core\Models\Question.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Handler\WebApiGlobalExceptionHandler.cs" />
+    <Compile Include="Persistence\CookieFeedbackRecorder.cs" />
+    <Compile Include="Persistence\SystemClock.cs" />
+    <Compile Include="UrlHelperExtensions.cs" />
     <Compile Include="Persistence\IApplicationDbContext.cs" />
     <Compile Include="Persistence\Migrations\201804081040401_intial.cs" />
     <Compile Include="Persistence\Migrations\201804081040401_intial.Designer.cs">
@@ -246,11 +252,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Views\Web.config" />
-    <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Home\_Feedback.cshtml" />

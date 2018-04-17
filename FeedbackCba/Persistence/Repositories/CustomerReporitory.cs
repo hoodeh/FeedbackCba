@@ -37,7 +37,10 @@ namespace FeedbackCba.Persistence.Repositories
         {
             try
             {
-                return _context.Customers.Any(c => c.Id == new Guid(customerId) && c.IsEnabled && c.ExpireDate > DateTime.Now);
+                return _context.Customers.Any(c =>
+                    c.Id == new Guid(customerId)
+                    && c.IsEnabled
+                    && c.ExpireDate > DateTime.Now);
             }
             catch (Exception ex)
             {
@@ -62,7 +65,7 @@ namespace FeedbackCba.Persistence.Repositories
             {
                 ex.Data.Add("customerId", customerId);
                 Console.WriteLine("CustomerReporitory.GetValidDomains" + ex);
-                return null;
+                return new string[] { };
             }
         }
 

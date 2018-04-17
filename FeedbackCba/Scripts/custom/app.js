@@ -2,24 +2,19 @@
     this.init = function(options) {
         this.options = options;
         var me = this;
+
         $("#follow-up-question").hide();
 
-        $("#feedback-submit-btn").click(function(e) {
-            if ($("#form-update-feedback").data('submitting') === true) {
-                //e.abort();
-                return false;
-            } else {
-                //$("#form-update-feedback").data('submitting', true);
-            }
-
+        $("#feedback-submit-btn").click(function() {
+            
             $.ajax({
                 type: "POST",
-                url: "http://localhost:59955/api/customers/" + options.customerId + "/feedbacks",
+                xhrFields: { withCredentials: true },
+                url: me.options.apiUrl + "customers/" + options.customerId + "/feedbacks",
                 data: JSON.stringify(me.getFormData()),
                 contentType: "application/json",
                 success: updateFeedbackOnSuccess,
-                error: updateFeedbackOnFailure,
-                done: updateFeedbackOnComplete
+                error: updateFeedbackOnFailure
             });
         });
 
@@ -85,16 +80,12 @@
         };
     }
 
-    function updateFeedbackOnSuccess(data) {
-        if (data.type === "success") {
+    function updateFeedbackOnSuccess(result) {
+        if (result.type === "success") {
             $("#form-update-feedback").remove();
         } else {
-            console.log(data.message);
+            console.log(result.message);
         }
-    }
-
-    function updateFeedbackOnComplete() {
-        $("#form-update-feedback").removeData('submitting');
     }
 
     function updateFeedbackOnFailure() {
