@@ -7,7 +7,7 @@ using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
-using System.Web.Http.Results;
+using System.Net;
 using System.Web.Mvc;
 
 namespace FeedbackCbaTest.Controllers
@@ -37,17 +37,17 @@ namespace FeedbackCbaTest.Controllers
         [TestMethod]
         public void Feedback_NoGivenCustomerId_ShouldReturnNotfound()
         {
-            var result = _homeController.Feedback("", _pageUrl);
+            var result = _homeController.Feedback("", _pageUrl) as HttpStatusCodeResult;
 
-            result.Should().BeOfType<BadRequestResult>();
+            result.StatusCode.Should().Be(400);
         }
 
         [TestMethod]
         public void Feedback_NoCustomerWithGivenId_ShouldReturnNotfound()
         {
-            var result = _homeController.Feedback(_customerId, _pageUrl);
+            var result = _homeController.Feedback(_customerId, _pageUrl) as HttpStatusCodeResult;
 
-            result.Should().BeOfType<BadRequestResult>();
+            result.StatusCode.Should().Be(403);
         }
 
         [TestMethod]
@@ -93,9 +93,9 @@ namespace FeedbackCbaTest.Controllers
             var hostname = string.Empty;
             _mockDomainValidator.Setup(d => d.IsValidHostName(_customerId, out hostname)).Returns(false);
 
-            var result = _homeController.Feedback(_customerId, _pageUrl);
+            var result = _homeController.Feedback(_customerId, _pageUrl) as HttpStatusCodeResult;
 
-            result.Should().BeOfType<BadRequestResult>();
+            result.StatusCode.Should().Be(403);
         }
 
     }

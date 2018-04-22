@@ -130,7 +130,6 @@
     <Compile Include="Persistence\Repositories\CustomerRepositoryTests.cs" />
     <Compile Include="Persistence\Repositories\FeedbackReposirtoryTests.cs" />
     <Compile Include="Persistence\CookieFeedbackRecorderTests.cs" />
-    <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

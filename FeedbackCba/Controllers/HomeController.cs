@@ -1,9 +1,8 @@
-﻿using FeedbackCba.Controllers.Api;
-using FeedbackCba.Core;
+﻿using FeedbackCba.Core;
 using FeedbackCba.Core.ViewModel;
+using FeedbackCba.Persistence;
 using System.Net;
 using System.Web.Mvc;
-using FeedbackCba.Persistence;
 
 namespace FeedbackCba.Controllers
 {
@@ -36,7 +35,7 @@ namespace FeedbackCba.Controllers
             var customer = _unitOfWork.Customers.GetCustomer(customerId);
             if (customer == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Customer not exist");
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden, "Customer not exist");
             }
 
             if (!customer.IsValid())
@@ -52,7 +51,7 @@ namespace FeedbackCba.Controllers
             }
             else
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Unauthorized access");
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden, "Unauthorized access");
             }
 
             // Check if more than 180 days from last feedback
