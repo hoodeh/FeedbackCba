@@ -25,7 +25,7 @@ namespace FeedbackCba.Controllers
         }
 
         [HttpGet]
-        public ActionResult Feedback(string customerId, string pageUrl, bool isMainPage = true, string userId = "")
+        public ActionResult Feedback(string customerId, string pageUrl = "", bool isMainPage = true, string userId = "")
         {
             if (string.IsNullOrEmpty(customerId))
             {
@@ -52,6 +52,11 @@ namespace FeedbackCba.Controllers
             else
             {
                 return new HttpStatusCodeResult(HttpStatusCode.Forbidden, "Unauthorized access");
+            }
+
+            if (string.IsNullOrWhiteSpace(pageUrl))
+            {
+                pageUrl = System.Web.HttpContext.Current.Request.Headers["Referer"].ToLower();
             }
 
             // Check if more than 180 days from last feedback
