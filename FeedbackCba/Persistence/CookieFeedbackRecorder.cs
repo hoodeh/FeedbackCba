@@ -21,7 +21,6 @@ namespace FeedbackCba.Persistence
             if (feedbackCookie == null)
             {
                 feedbackCookie = new HttpCookie("CbaFeedback_" + customerId);
-                feedbackCookie.Domain = "localhost";
             }
 
             feedbackCookie[pageUrl] = _clock.Now.ToString("O");
