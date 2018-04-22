@@ -31,14 +31,12 @@
     #feedback.menu {
         position: fixed;
         bottom: 0;
-        right: 0;
-        margin-right: 30px;
-        width: 310px;
+        right: 30px;
         max-width: 310px;
     }
 
     #feedback-header {
-        padding: 7px;
+        padding: 8px 12px;
     }
 
     #feedback-header:hover {
@@ -55,7 +53,8 @@
             <b>FEEDBACK</b>
         </div>
         <div id="feedback-form" class="hidden">
-            <span>@Model.MainQuestion</span>
+            <span>@Model.Statement</span> <br/>
+            <strong>@Model.MainQuestion</strong>
             <div id="star-rating">
                 @{
                     for (var i = 1; i <= 10; i++)
