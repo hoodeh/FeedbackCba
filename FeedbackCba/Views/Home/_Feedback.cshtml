@@ -1,101 +1,55 @@
-﻿@model FeedbackCba.ViewModel.FeedbackViewModel
+﻿@model FeedbackCba.Core.ViewModel.FeedbackViewModel
 
-@using (Html.BeginForm("Create"))
+@using (Html.BeginForm("_UpdateFeedback", "Home"))
 {
-    <form id="feedback-form">
-        @Html.HiddenFor(m => m.Score)
-        @Html.HiddenFor(m => m.UserId)
-        @Html.HiddenFor(m => m.IsMainPage)
-        @Html.HiddenFor(m => m.PageUrl)
-        <div class="col-md-4">
-            <div class="form-group">
-                <label>@(Model.IsMainPage ? "How do you like this site?" : "How helpful is this page?")</label>
-                @if (!Model.ShouldShowRating)
+    @*@Html.HiddenFor(m => m.Id)
+    @Html.HiddenFor(m => m.Score)
+    @Html.HiddenFor(m => m.UserId)
+    @Html.HiddenFor(m => m.IsMainPage)
+    @Html.HiddenFor(m => m.PageUrl)*@
+    <div class="form-group">
+        <label id="main-question" class="@(Model.HasValidResult ? "hidden" : "")">@Model.Question</label>
+        @if (Model.HasValidResult)
+        {
+            <div id="feedback-result">
+                <span>Thanks for your feedback</span>
+                <a href="#" onclick="Feedback.editFeedback(); return false;">Click to edit</a>
+            </div>
+        }
+        <div id="star-rating">
+            @{
+                var spanClass = Model.HasValidResult ? "" : "rate-star";
+                for (var i = 1; i <= 10; i++)
                 {
-                    <div id="feedback-result">
-                        <span>@Model.Score</span>
-                        <span>Thanks for your feedback</span>
-                        <a href="#" onclick="editFeedback">Click to edit</a>
-                    </div>
+                    <span class="@spanClass star-fade" data-val="@i"></span>
                 }
-                <div id="star-rating" style="@(Model.ShouldShowRating ? "" : "display:none;")">
-                    <label class="rate-star">1 </label>
-                    <label class="rate-star">2 </label>
-                    <label class="rate-star">3 </label>
-                    <label class="rate-star">4 </label>
-                    <label class="rate-star">5 </label>
-                    <label class="rate-star">6 </label>
-                    <label class="rate-star">7 </label>
-                    <label class="rate-star">8 </label>
-                    <label class="rate-star">9 </label>
-                    <label class="rate-star">10</label>
-                </div>                
-            </div>
-            
-            <div id="second-part">
-                <div id="question" class="form-group">
-                    <label class="question rate-low">What can we do to improve?</label>
-                    <label class="question rate-mid">Is there anything we can do to improve?</label>
-                    <label class="question rate-high">Is there anything you particularly like?</label>
-                    @Html.TextAreaFor(m => m.Answer, new { @class = "form-control"} )
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.UserName)
-                    @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(m => m.UserEmail)
-                    @Html.TextBoxFor(m => m.UserEmail, new { @class = "form-control" })
-                </div>
-
-                <button type="submit" class="btn btn-default btn-sm">Submit</button>
-            </div>
+            }
         </div>
-    </form>
+    </div>
+
+    <div id="second-part">
+        <div id="question" class="form-group">
+            <label class="question rate-low">What can we do to improve?</label>
+            <label class="question rate-mid">Is there anything we can do to improve?</label>
+            <label class="question rate-high">Is there anything you particularly like?</label>
+            @Html.TextAreaFor(m => m.Answer, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.UserName)
+            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.UserEmail)
+            @Html.TextBoxFor(m => m.UserEmail, new { @class = "form-control" })
+        </div>
+
+        <button type="submit" class="btn btn-default btn-sm">Submit</button>
+    </div>
 }
 
 <script type="text/javascript">
-    $(function() {
-        $("#second-part").hide();
-
-        $("#star-rating .rate-star").on("click", function () {
-            var score = parseInt($(this).html());
-            $("#Score").val(score); // set model value
-            showQuestion(score);
-        });
-
-        //showQuestion(parseInt(@Model.Score));
-        setCookie("feedbackUserId", "@Model.UserId");
+    $(function () {
+        Feedback.init();
     });
-
-    function showQuestion(score) {
-        $("#second-part").show();
-        var questionDiv = $("#question");
-        if (score <= 0) {
-            questionDiv.hide();
-            return;
-        }
-
-        questionDiv.find(".question").hide();
-        questionDiv.show();
-        if (score < 5) {
-            questionDiv.find(".rate-low").show();
-        } else if (score < 9) {
-            questionDiv.find(".rate-mid").show();
-        } else {
-            questionDiv.find(".rate-high").show();
-        }
-    }
-
-    function setCookie(name, value) {
-        document.cookie = name + "=" + value + ";path=/";
-    }
-
-    function editFeedback() {
-        $("#feedback-result").hide();
-        $("#star-rating").show();
-        showQuestion(parseInt(@Model.Score));
-    }
-
 </script>

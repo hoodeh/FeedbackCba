@@ -1,0 +1,84 @@
+﻿@using FeedbackCba.Persistence.StaticHelpers
+@model FeedbackCba.Core.ViewModel.FeedbackViewModel
+
+@{
+    Layout = "";
+}
+<link href="@Url.GetAbsoluteUrl("~/Content/bootstrap.css")" rel="stylesheet" />
+<link href="@Url.GetAbsoluteUrl("~/Content/Site.css")" rel="stylesheet" />
+
+<script type="text/javascript">
+    var script = document.createElement('script');
+
+    script.addEventListener('load', function () {
+        var feedback = new Feedback();
+        feedback.init({
+            customerId:"@Model.CustomerId",
+            userId:"@Model.UserId",
+            pageUrl:"@Model.PageUrl",
+            isMainPage: "@Model.IsMainPage",
+            apiUrl: "@Url.GetAbsoluteUrl("~/Api/")"
+        });
+    });
+    script.src = "@Url.GetAbsoluteUrl("~/Scripts/custom/app.js")";
+    document.head.appendChild(script);
+</script>
+
+<style>
+    .hidden {
+        display: none;
+    }
+
+    #feedback.menu {
+        position: fixed;
+        bottom: 0;
+        right: 30px;
+        max-width: 310px;
+        z-index: 999;
+    }
+
+    #feedback-header {
+        padding: 8px 12px;
+    }
+
+    #feedback-header:hover {
+        cursor: pointer;
+    }
+</style>
+
+<form id="form-update-feedback">
+    <input id="rate" name="rate" type="hidden" />
+    <input id="question-id" name="question-id" type="hidden" />
+
+    <div id="feedback" class="menu">
+        <div id="feedback-header" style="background-color: @Model.BgColor;">
+            <b>FEEDBACK</b>
+        </div>
+        <div id="feedback-form" class="hidden">
+            <p>@Model.Statement</p>
+            <strong>@Model.MainQuestion</strong>
+            <div id="star-rating">
+                @{
+                    for (var i = 1; i <= 10; i++)
+                    {
+                        <span class="rate-star star-fade" data-val="@i"></span>
+                    }
+                }
+            </div>
+            <div id="follow-up-question">
+                <div id="question" class="form-group">
+                    @{
+                        foreach (var question in Model.Questions)
+                        {
+                            <label class="question" data-id="@question.Id" data-from-rate="@question.FromRate" data-to-rate="@question.ToRate">
+                                @question.Text
+                            </label>
+                        }
+                    }
+                    <textarea class="form-control" id="user-reply"></textarea>
+                </div>
+                <button id="feedback-submit-btn" type="button" class="btn btn-default btn-sm">Submit</button>
+            </div>
+        </div>
+    </div>
+</form>

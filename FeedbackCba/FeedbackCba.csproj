@@ -48,17 +48,57 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.3.2.0.0\lib\net45-full\Ninject.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Ninject.Extensions.Conventions, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\ninject.extensions.conventions.3.2.0.0\lib\net45-full\Ninject.Extensions.Conventions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Ninject.Web.Common, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.Web.Common.3.2.0.0\lib\net45-full\Ninject.Web.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Ninject.Web.Mvc, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.MVC5.3.2.1.0\lib\net45-full\Ninject.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Ninject.Web.WebApi, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.Web.WebApi.3.2.1.0\lib\net45-full\Ninject.Web.WebApi.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.4\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Web.Cors, Version=5.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Cors.5.2.4\lib\net45\System.Web.Cors.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Http, Version=5.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.4\lib\net45\System.Web.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http.Cors, Version=5.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Cors.5.2.4\lib\net45\System.Web.Http.Cors.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.0.0\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -103,6 +143,10 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebActivatorEx.2.0\lib\net40\WebActivatorEx.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
@@ -120,39 +164,77 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Persistence\CustomerDomainValidator.cs" />
+    <Compile Include="Controllers\Api\FeedbacksController.cs" />
+    <Compile Include="Core\IFeedbackRecorder.cs" />
+    <Compile Include="Core\Dtos\FeedbackDto.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Core\ISystemClock.cs" />
+    <Compile Include="Core\Models\Customer.cs" />
+    <Compile Include="Core\Models\Question.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201804010427145_feedback.cs" />
-    <Compile Include="Migrations\201804010427145_feedback.Designer.cs">
-      <DependentUpon>201804010427145_feedback.cs</DependentUpon>
+    <Compile Include="Handler\WebApiGlobalExceptionHandler.cs" />
+    <Compile Include="Persistence\CookieFeedbackRecorder.cs" />
+    <Compile Include="Persistence\SystemClock.cs" />
+    <Compile Include="Persistence\StaticHelpers\UrlHelperExtensions.cs" />
+    <Compile Include="Persistence\IApplicationDbContext.cs" />
+    <Compile Include="Persistence\Migrations\201804081040401_intial.cs" />
+    <Compile Include="Persistence\Migrations\201804081040401_intial.Designer.cs">
+      <DependentUpon>201804081040401_intial.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="DAL\ApplicationDbContext.cs" />
-    <Compile Include="Models\Feedback.cs" />
-    <Compile Include="Models\User.cs" />
+    <Compile Include="Persistence\Migrations\201804081042478_FeedbackAndQuestionTables.cs" />
+    <Compile Include="Persistence\Migrations\201804081042478_FeedbackAndQuestionTables.Designer.cs">
+      <DependentUpon>201804081042478_FeedbackAndQuestionTables.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Persistence\Migrations\201804081054553_UpdateQuestionType.cs" />
+    <Compile Include="Persistence\Migrations\201804081054553_UpdateQuestionType.Designer.cs">
+      <DependentUpon>201804081054553_UpdateQuestionType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Persistence\Migrations\201804081057076_UpdateCustomerFields.cs" />
+    <Compile Include="Persistence\Migrations\201804081057076_UpdateCustomerFields.Designer.cs">
+      <DependentUpon>201804081057076_UpdateCustomerFields.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Persistence\Migrations\201804091018393_addingStatementAndQuestionToCustomer.cs" />
+    <Compile Include="Persistence\Migrations\201804091018393_addingStatementAndQuestionToCustomer.Designer.cs">
+      <DependentUpon>201804091018393_addingStatementAndQuestionToCustomer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Persistence\Migrations\201804091054220_LinkQuestiontoCustomer.cs" />
+    <Compile Include="Persistence\Migrations\201804091054220_LinkQuestiontoCustomer.Designer.cs">
+      <DependentUpon>201804091054220_LinkQuestiontoCustomer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Persistence\Migrations\Configuration.cs" />
+    <Compile Include="Persistence\ApplicationDbContext.cs" />
+    <Compile Include="Core\Models\Feedback.cs" />
+    <Compile Include="Core\IUnitOfWork.cs" />
+    <Compile Include="Persistence\Repositories\CustomerReporitory.cs" />
+    <Compile Include="Core\Repositories\ICustomerReporitory.cs" />
+    <Compile Include="Persistence\UnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModel\FeedbackViewModel.cs" />
+    <Compile Include="Persistence\Repositories\FeedbackRepository.cs" />
+    <Compile Include="Core\Repositories\IFeedbackRepository.cs" />
+    <Compile Include="Core\ViewModel\FeedbackViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Images\star.JPG" />
+    <Content Include="Content\Images\starGlow.JPG" />
     <Content Include="favicon.ico" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <None Include="Properties\PublishProfiles\CbaFeedback - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\CbaFeedback - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\custom\app.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
@@ -167,28 +249,38 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Views\Web.config" />
-    <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
-    <Content Include="Views\Home\_Feedback.cshtml" />
+    <Content Include="Views\Home\Feedback.cshtml" />
+    <Content Include="Views\Home\ExpiredPackage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="packages.config" />
-    <None Include="Project_Readme.html" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201804010427145_feedback.resx">
-      <DependentUpon>201804010427145_feedback.cs</DependentUpon>
+    <EmbeddedResource Include="Persistence\Migrations\201804081040401_intial.resx">
+      <DependentUpon>201804081040401_intial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Persistence\Migrations\201804081042478_FeedbackAndQuestionTables.resx">
+      <DependentUpon>201804081042478_FeedbackAndQuestionTables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Persistence\Migrations\201804081054553_UpdateQuestionType.resx">
+      <DependentUpon>201804081054553_UpdateQuestionType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Persistence\Migrations\201804081057076_UpdateCustomerFields.resx">
+      <DependentUpon>201804081057076_UpdateCustomerFields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Persistence\Migrations\201804091018393_addingStatementAndQuestionToCustomer.resx">
+      <DependentUpon>201804091018393_addingStatementAndQuestionToCustomer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Persistence\Migrations\201804091054220_LinkQuestiontoCustomer.resx">
+      <DependentUpon>201804091054220_LinkQuestiontoCustomer.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
