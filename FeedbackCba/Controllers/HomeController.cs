@@ -44,16 +44,14 @@ namespace FeedbackCba.Controllers
             }
 
             string hostName;
-            if (_domainValidator.IsValidHostName(customerId, out hostName))
-            {
-                Response.AddHeader("Access-Control-Allow-Origin", hostName);
-                Response.AddHeader("Access-Control-Allow-Credentials", "true");
-            }
-            else
+            if (!_domainValidator.IsValidHostName(customerId, out hostName))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.Forbidden, "Unauthorized access");
             }
 
+            Response.AppendHeader("Access-Control-Allow-Origin", hostName);
+            Response.AppendHeader("Access-Control-Allow-Credentials", "true");
+            
             if (string.IsNullOrWhiteSpace(pageUrl))
             {
                 pageUrl = System.Web.HttpContext.Current.Request.Headers["Referer"].ToLower();

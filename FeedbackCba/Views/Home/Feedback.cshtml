@@ -1,4 +1,5 @@
-﻿@model FeedbackCba.Core.ViewModel.FeedbackViewModel
+﻿@using FeedbackCba.Persistence.StaticHelpers
+@model FeedbackCba.Core.ViewModel.FeedbackViewModel
 
 @{
     Layout = "";
@@ -54,7 +55,7 @@
             <b>FEEDBACK</b>
         </div>
         <div id="feedback-form" class="hidden">
-            <span>@Model.Statement</span> <br/>
+            <p>@Model.Statement</p>
             <strong>@Model.MainQuestion</strong>
             <div id="star-rating">
                 @{

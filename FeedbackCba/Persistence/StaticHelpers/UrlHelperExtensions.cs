@@ -2,7 +2,7 @@
 using System.Web;
 using System.Web.Mvc;
 
-namespace FeedbackCba
+namespace FeedbackCba.Persistence.StaticHelpers
 {
     public static class UrlHelperExtensions
     {

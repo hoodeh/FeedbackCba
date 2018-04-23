@@ -25,8 +25,7 @@ namespace FeedbackCba.Controllers.Api
         }
 
         // POST api/<controller>
-        //[EnableCors(origins: "*", headers: "*", methods: "*")]
-        [System.Web.Http.Route("api/customers/{customerId}/feedbacks")]
+        [Route("api/customers/{customerId}/feedbacks")]
         public IHttpActionResult Post(string customerId, FeedbackDto feedBack)
         {
             if (!_feedbackRecorder.CanProvideFeedback(customerId, feedBack.PageUrl))
